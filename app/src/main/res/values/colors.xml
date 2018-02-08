@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="green">#66bb6a</color>
+    <color name="grey">#f9f9f9</color>
+    <color name="black">#000</color>
+    <color name="white_color">#ffffff</color>
+
+    <color name="text">#3c444f</color> <!--Bold-->
+    <color name="text_dark">#FF5f5d70</color> <!--Input-->
+    <color name="text_medium">#663c444f</color><!-- Secondary text-->
+    <color name="text_light">@color/white_color</color> <!--Button text-->
+
+
+</resources>
