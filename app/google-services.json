@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1021381056299",
+    "firebase_url": "https://travelbucketlist-72826.firebaseio.com",
+    "project_id": "travelbucketlist-72826",
+    "storage_bucket": "travelbucketlist-72826.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021381056299:android:27d832b51b96f675",
+        "android_client_info": {
+          "package_name": "com.b00sti.travelbucketlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021381056299-vak03jfei8t2jstpjvvg7cloiigt45v3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgvZ4pn69UAMGkdM-51m78pD7rP-v_fv0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

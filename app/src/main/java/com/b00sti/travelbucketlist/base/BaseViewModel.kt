@@ -15,9 +15,9 @@ abstract class BaseViewModel<N : Any> : ViewModel() {
     private var mCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
 
-    fun navigate(): N = mNavigator
+    fun getNavigator(): N = mNavigator
 
-    fun setNav(navigator: N) {
+    fun setNavigator(navigator: N) {
         this.mNavigator = navigator
     }
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.b00sti.travelbucketlist.ui.main.auth.AuthViewModel"/>
+
+        <import type="android.view.View"/>
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clAuthRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivBackButtonMain"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:background="@drawable/btn_transparent_ripple"
+            android:onClick="@{() ->vm.onBackArrowClick()}"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            android:src="@drawable/ic_arrow_back_wite_24dp"
+            android:tint="@color/colorAccent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"/>
+
+        <FrameLayout
+            android:id="@+id/flAuthContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

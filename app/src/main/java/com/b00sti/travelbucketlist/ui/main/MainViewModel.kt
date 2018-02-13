@@ -8,10 +8,10 @@ import com.b00sti.travelbucketlist.base.BaseViewModel
 class MainViewModel : BaseViewModel<MainNavigator>() {
 
     fun onBackArrowClick() {
-        navigate().onBackArrowClick()
+        getNavigator().onBackArrowClick()
     }
 
     fun onSettingsClicked() {
-        navigate().onBackArrowClick()
+        getNavigator().onBackArrowClick()
     }
 }

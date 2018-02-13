@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.b00sti.travelbucketlist.ui.main.MainActivity
 import timber.log.Timber
 import kotlin.reflect.KClass
 
@@ -33,6 +34,10 @@ object ScreenRouter {
             runSimpleActivityWithClearedTop(activity, AuthActivity::class)
         })
     }*/
+
+    fun goToMainActivity(activity: Activity?) {
+        startWithoutParams(activity, MainActivity::class)
+    }
 
     private fun startWithoutParams(activity: Activity?, clazz: KClass<*>) {
         checkConditions(activity) {

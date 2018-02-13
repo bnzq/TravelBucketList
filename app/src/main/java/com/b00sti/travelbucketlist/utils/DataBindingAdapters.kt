@@ -1,9 +1,13 @@
 package com.b00sti.travelbucketlist.utils
 
 import android.databinding.BindingAdapter
+import android.support.design.widget.TextInputEditText
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
+import android.widget.TextView
+import com.b00sti.travelbucketlist.R
 
 /**
  * Created by b00sti on 07.02.2018
@@ -36,6 +40,32 @@ object DataBindingAdapters {
         })
     }
 
+    @JvmStatic
+    @BindingAdapter("validation")
+    fun bindError(view: TextInputEditText, valid: Boolean) {
+        val drawables = view.compoundDrawablesRelative
+        val validation = when {
+            view.editableText.toString().isEmpty() -> null
+            valid -> ResUtils.getDrawable(R.drawable.ic_done_black_24dp)
+            else -> ResUtils.getDrawable(R.drawable.ic_clear_black_24dp)
+        }
+        view.setCompoundDrawablesRelativeWithIntrinsicBounds(drawables[0], null, validation, null)
+
+    }
+
+    @JvmStatic
+    @BindingAdapter("onFocusChange")
+    fun bindFocusChange(view: TextInputEditText, focusChangeListener: View.OnFocusChangeListener) {
+        view.onFocusChangeListener = focusChangeListener
+    }
+
+    @JvmStatic
+    @BindingAdapter("formatBase", "formatValue")
+    fun setFormat(view: TextView, format: String, value: String) {
+        view.visibility = if (value.trim().isEmpty()) View.GONE else View.VISIBLE
+        view.text = ViewUtils.fromHtml(String.format(format, value.replace("\n", "<br>")))
+
+    }
 
 /*    @Suppress("unused")
     @JvmStatic
