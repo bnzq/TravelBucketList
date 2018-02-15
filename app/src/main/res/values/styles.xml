@@ -122,6 +122,11 @@
 
     <style name="Widget" />
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
     <style name="Widget.FullWidthButton" parent="Widget">
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:layout_width">@dimen/match_constrain</item>
@@ -155,7 +160,7 @@
         <item name="android:textColorHint">@color/text_dark</item>
         <item name="android:background">@drawable/background_input</item>
         <item name="android:textAppearance">@style/AppTextAppearance.Dark</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">10dp</item>
     </style>
 
 </resources>

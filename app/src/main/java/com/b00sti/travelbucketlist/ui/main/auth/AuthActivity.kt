@@ -6,6 +6,7 @@ import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseActivity
 import com.b00sti.travelbucketlist.databinding.ActivityAuthBinding
+import com.b00sti.travelbucketlist.ui.main.auth.login.LoginFragment
 import com.b00sti.travelbucketlist.ui.main.auth.register.RegisterFragment
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import timber.log.Timber
@@ -29,7 +30,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>(), AuthNav
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pushFragments(RegisterFragment.getInstance(), R.id.flAuthContainer, first = true, shouldAnimate = false)
+        pushFragments(LoginFragment.getInstance(), R.id.flAuthContainer, first = true, shouldAnimate = false)
         viewModel.setNavigator(this)
 /*        FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnCompleteListener { task ->
             if (task.isSuccessful && task.result != null) {

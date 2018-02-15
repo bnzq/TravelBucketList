@@ -6,7 +6,8 @@
     <color name="colorAccentDark">#37A9FA</color>
     <color name="colorAccentLight">#38D1FD</color>
 
-    <color name="green">#66bb6a</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
     <color name="grey">#f9f9f9</color>
     <color name="black">#000</color>
     <color name="white_color">#ffffff</color>
@@ -15,6 +16,5 @@
     <color name="text_dark">#FF5f5d70</color> <!--Input-->
     <color name="text_medium">#663c444f</color><!-- Secondary text-->
     <color name="text_light">@color/white_color</color> <!--Button text-->
-
 
 </resources>

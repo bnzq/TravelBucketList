@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.b00sti.travelbucketlist.ui.main.MainActivity
+import com.b00sti.travelbucketlist.ui.main.auth.AuthActivity
 import timber.log.Timber
 import kotlin.reflect.KClass
 
@@ -28,12 +29,12 @@ object ScreenRouter {
         bundle.putString("place", placeId)
         startWithParams(activity, ReviewActivity::class, bundle)
     }
-
+*/
     fun goToAuthActivity(activity: Activity?) {
         start(activity, {
             runSimpleActivityWithClearedTop(activity, AuthActivity::class)
         })
-    }*/
+    }
 
     fun goToMainActivity(activity: Activity?) {
         startWithoutParams(activity, MainActivity::class)

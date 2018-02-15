@@ -20,7 +20,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     override fun getLayoutId(): Int = R.layout.fragment_register
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addViewTransitions(context = getBaseActivity(), enter = android.R.transition.fade, duration = 200L)
+        //addViewTransitions(context = getBaseActivity(), enter = android.R.transition.fade, duration = 200L)
     }
 
     override fun onResume() {

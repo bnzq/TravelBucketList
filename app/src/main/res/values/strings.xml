@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TravelBucketList</string>
+    <string name="app_name">Travel Bucket List</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -14,11 +14,13 @@
     <string name="password">Password</string>
     <string name="email_address">Email address</string>
     <string name="login">Login</string>
-    <string name="have_an_account">Have an account?</string>
-    <string name="register_also_info">You can also register through</string>
+    <string name="have_an_account">Already have an account?</string>
+    <string name="register_also_info">Register with</string>
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="invalid_email">Please enter a valid email address</string>
     <string name="invalid_password">Password should contain at least 8 characters, 1 upper case and 1 number</string>
     <string name="invalid_username">Full name should contain at least 3 characters.</string>
     <string name="invalid_confirm">Passwords do not match.</string>
+    <string name="auth_facebook_transition_name">facebook</string>
+
 </resources>
