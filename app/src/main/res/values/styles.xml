@@ -147,7 +147,7 @@
     </style>
 
     <style name="Widget.TextEdit">
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">@dimen/match_parent</item>
         <item name="android:textColorHighlight">@color/text_light</item>
         <item name="android:drawablePadding">@dimen/drawable_padding</item>
@@ -155,7 +155,7 @@
         <item name="android:textColorHint">@color/text_dark</item>
         <item name="android:background">@drawable/background_input</item>
         <item name="android:textAppearance">@style/AppTextAppearance.Dark</item>
-        <item name="android:padding">@dimen/text_padding</item>
+        <item name="android:padding">8dp</item>
     </style>
 
 </resources>
