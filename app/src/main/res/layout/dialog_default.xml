@@ -3,8 +3,10 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@drawable/dialog_background"
-              android:orientation="vertical">
+              android:layout_margin="24dp"
+              android:background="@drawable/background_input"
+              android:orientation="vertical"
+              android:padding="24dp">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/toolbarTitleTv"
@@ -34,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
+            android:background="@color/transparent"
             android:gravity="center"
             android:textAllCaps="true"
             android:textColor="@color/black"
@@ -47,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:background=""
+            android:background="@color/transparent"
             android:gravity="center"
             android:textAllCaps="true"
             android:textColor="@color/colorAccentDark"

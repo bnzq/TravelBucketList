@@ -9,7 +9,6 @@ import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.Validation
-import com.google.firebase.auth.FirebaseUser
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
@@ -54,13 +53,12 @@ class RegisterViewModel : BaseViewModel<RegisterNavigator>() {
                     .subscribeBy(
                             onNext = {
                                 Timber.d("register next")
-//                                getNavigator().openMainActivity()
                                 getNavigator().openMainActivity()
                                 //addUser(it.third, it.second)
                             },
                             onError = {
                                 Timber.d("register error")
-                                getNavigator().showError(it.localizedMessage)
+                                getNavigator().showErrorDialog(it.localizedMessage)
                             }
                     ))
         } else {
@@ -70,26 +68,8 @@ class RegisterViewModel : BaseViewModel<RegisterNavigator>() {
             if (!nameValid.get()) builder.append(" - ").append(ResUtils.getString(R.string.invalid_username)).append("\n")
             if (!passwordValid.get()) builder.append(" - ").append(ResUtils.getString(R.string.invalid_password)).append("\n")
             if (!passwordConfirmValid.get()) builder.append(" - ").append(ResUtils.getString(R.string.invalid_confirm)).append("\n")
-            getNavigator().showError(builder.toString(), "Validation")
+            getNavigator().showErrorDialog(builder.toString(), "Validation")
         }
-    }
-
-    private fun addUser(token: String, user: FirebaseUser) {
-        Timber.w("add User top")
-/*        getCompositeDisposable().add(NetworkManager.loginUser(token, AuthRequest(user))
-                .compose(RxUtils.applyObservableSchedulers())
-                .doOnTerminate { getNavigator().onLoading(false) }
-                .subscribeBy(
-                        onNext = {
-                            if (it.isSuccessful) getNavigator().openMainActivity()
-                            else {
-                                getNavigator().showError(it.message(), it.code().toString())
-                            }
-                        },
-                        onError = {
-                            getNavigator().showError("Failed")
-                        }
-                ))*/
     }
 
     fun onFacebookClick() = getNavigator().registerFacebook()

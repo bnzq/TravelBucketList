@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.b00sti.travelbucketlist.ui.main.auth.AuthViewModel"/>
+            type="com.b00sti.travelbucketlist.ui.auth.AuthViewModel"/>
 
         <import type="android.view.View"/>
     </data>
