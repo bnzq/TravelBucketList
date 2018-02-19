@@ -7,6 +7,7 @@ import com.android.databinding.library.baseAdapters.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.databinding.FragmentLoginBinding
+import com.b00sti.travelbucketlist.ui.auth.AuthActivity
 import com.b00sti.travelbucketlist.ui.auth.register.RegisterFragment
 import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.finish
@@ -40,7 +41,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
         viewModel.setNavigator(this)
     }
 
-    override fun loginFacebook() {}//(getBaseActivity() as AuthActivity).onFacebookClick()
+    override fun loginFacebook() = getParent<AuthActivity>()?.onFacebookClick() ?: Unit
 
     override fun openMainActivity() {
         ScreenRouter.goToMainActivity(getBase())

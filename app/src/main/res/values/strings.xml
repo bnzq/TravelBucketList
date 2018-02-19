@@ -22,5 +22,6 @@
     <string name="invalid_username">Full name should contain at least 3 characters.</string>
     <string name="invalid_confirm">Passwords do not match.</string>
     <string name="auth_facebook_transition_name">facebook</string>
-
+    <string name="facebook_app_id">159097104895948</string>
+    <string name="fb_login_protocol_scheme">fb159097104895948</string>
 </resources>

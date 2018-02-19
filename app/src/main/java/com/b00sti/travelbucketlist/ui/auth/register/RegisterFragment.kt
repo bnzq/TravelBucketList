@@ -5,6 +5,7 @@ import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.databinding.FragmentRegisterBinding
+import com.b00sti.travelbucketlist.ui.auth.AuthActivity
 import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.finish
 
@@ -26,7 +27,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     }
 
 
-    override fun registerFacebook() {}//(getBaseActivity() as AuthActivity).onFacebookClick()
+    override fun registerFacebook() = getParent<AuthActivity>()?.onFacebookClick() ?: Unit
     override fun openLoginFragment() = getBase()?.onBackPressed() ?: Unit
 
     override fun openMainActivity() {

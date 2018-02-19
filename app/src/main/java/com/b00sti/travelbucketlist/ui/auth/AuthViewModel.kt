@@ -1,6 +1,10 @@
 package com.b00sti.travelbucketlist.ui.auth
 
+import com.b00sti.travelbucketlist.api.RxFirebaseAuth
 import com.b00sti.travelbucketlist.base.BaseViewModel
+import com.b00sti.travelbucketlist.utils.RxUtils
+import com.facebook.login.LoginResult
+import io.reactivex.rxkotlin.subscribeBy
 
 /**
  * Created by b00sti on 13.02.2018
@@ -10,6 +14,25 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
     fun onBackArrowClick() {
         getNavigator().onBackClick()
     }
+
+
+    fun handleFacebookResult(result: LoginResult) {
+        getCompositeDisposable().add(RxFirebaseAuth.loginFacebook(result.accessToken)
+                .compose(RxUtils.applyObservableSchedulers())
+                .doOnSubscribe { getNavigator().onLoading(true) }
+                .subscribeBy(
+                        onNext = {
+                            getNavigator().openMainActivity()
+                        },
+                        onComplete = {
+                        },
+                        onError = {
+                            it.printStackTrace()
+                            getNavigator().showErrorDialog("Something went wrong, try again!")
+                        }
+                ))
+    }
+
 /*
     fun handleFacebookResult(result: LoginResult) {
         getCompositeDisposable().add(RxFirebaseAuth.loginAndGetDataFromFacebook(result.accessToken)

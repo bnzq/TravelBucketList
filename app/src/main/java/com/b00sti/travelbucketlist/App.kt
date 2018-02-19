@@ -2,6 +2,8 @@ package com.b00sti.travelbucketlist
 
 import android.app.Application
 import android.content.Context
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import timber.log.Timber
 
 /**
@@ -24,6 +26,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FacebookSdk.sdkInitialize(getApplicationContext())
+        AppEventsLogger.activateApp(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

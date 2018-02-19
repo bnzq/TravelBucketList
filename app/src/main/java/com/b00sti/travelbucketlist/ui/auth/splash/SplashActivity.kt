@@ -1,7 +1,9 @@
 package com.b00sti.travelbucketlist.ui.auth.splash
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseActivity
@@ -9,6 +11,8 @@ import com.b00sti.travelbucketlist.databinding.ActivitySplashBinding
 import com.b00sti.travelbucketlist.utils.ScreenRouter
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -23,10 +27,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coninue()
-        //printKey()
+        printKey()
     }
 
-/*    fun printKey() {
+    fun printKey() {
         try {
             val info = packageManager.getPackageInfo(
                     "pl.ready4s.vanderon",
@@ -41,7 +45,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
         } catch (e: NoSuchAlgorithmException) {
 
         }
-    }*/
+    }
 
     fun coninue() {
         viewModel.setNavigator(this)
