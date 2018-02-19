@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.b00sti.travelbucketlist.utils.ResUtils
+import com.b00sti.travelbucketlist.utils.toast
 
 /**
  * Created by b00sti on 08.02.2018
@@ -46,16 +48,13 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fra
         viewDataBinding.executePendingBindings()
     }
 
-
-    protected fun getBaseActivity(): BaseActivity<*, *> = mActivity
-
-    override fun showError(resMsg: Int, resTitle: Int) = getBaseActivity().showError(resMsg, resTitle)
-    override fun showError(msg: String?, title: String?) = getBaseActivity().showError(msg, title)
-    override fun onLoading(show: Boolean) = getBaseActivity().onLoading(show)
-    override fun showError(msg: String?, title: String?, listener: (View) -> Unit) = getBaseActivity().showError(msg, title, listener)
+    inline fun <reified T : BaseActivity<*, *>> getParent(): T? = activity as? T
+    override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))
+    override fun showToast(message: String) = toast(message)
+    override fun onLoading(loading: Boolean) = getParent<BaseActivity<*, *>>()?.onLoading(loading)
 
     @JvmOverloads
-    fun addViewTransitions(context: Context = getBaseActivity(), enter: Int, exit: Int = enter, duration: Long) {
+    fun addViewTransitions(context: Context? = getContext(), enter: Int, exit: Int = enter, duration: Long) {
         allowEnterTransitionOverlap = false
         allowReturnTransitionOverlap = false
         val enterTrans = TransitionInflater.from(context).inflateTransition(enter)

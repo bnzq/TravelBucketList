@@ -1,6 +1,5 @@
 package com.b00sti.travelbucketlist.base
 
-import android.app.Dialog
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
@@ -10,11 +9,10 @@ import android.support.transition.TransitionInflater
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import com.b00sti.travelbucketlist.R
-import com.b00sti.travelbucketlist.utils.ViewUtils
+import com.b00sti.travelbucketlist.utils.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 
@@ -25,13 +23,14 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
 
     val viewModel: V by lazy { getViewModels() }
     private lateinit var viewDataBinding: T
-    private var progressDialog: DialogFragment? = null
-    private var dialog: Dialog? = null
     lateinit var rxPermission: RxPermissions
+    private var pb: DialogFragment? = null
     protected abstract fun getViewModels(): V
     protected abstract fun getBindingVariable(): Int
     @LayoutRes
     protected abstract fun getLayoutId(): Int
+
+    val DOUBLE_TAP_TIMEOUT = 2000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
 
     override fun onStop() {
         super.onStop()
-        dialog?.dismiss()
+        pb?.dismiss()
     }
 
     private fun performDataBinding() {
@@ -51,24 +50,18 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         viewDataBinding.executePendingBindings()
     }
 
-    open fun onNavigateBack(call: () -> Any): Any {
-        return if (supportFragmentManager.backStackEntryCount <= 1) {
-            finish()
-            false
-        } else {
-            call()
+    override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))
+    override fun showToast(message: String) = toast(message)
+    override fun onLoading(loading: Boolean) {
+        return when {
+            loading ->
+                if (pb == null) {
+                    pb = showProgressDialog()
+                } else {
+                    return
+                }
+            else -> hideProgressDialog(pb)
         }
-    }
-
-    override fun onBackPressed() {
-        onNavigateBack { super.onBackPressed() }
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onNavigateBack { super.onKeyDown(keyCode, event) } as Boolean
-        } else
-            super.onKeyDown(keyCode, event)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -122,34 +115,6 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
             e.printStackTrace()
         }
     }
-
-
-    override fun showError(resMsg: Int, resTitle: Int) {
-        // showError(getString(resMsg), getString(resTitle))
-    }
-
-    override fun showError(msg: String?, title: String?) {
-        onLoading(false)
-        //  dialog = ScreenRouter.showSimpleErrorDialog(this, titleText = title
-        //         ?: "Error", message = msg ?: "Error, try again.")
-    }
-
-    override fun showError(msg: String?, title: String?, listener: (View) -> Unit) {
-        onLoading(false)
-        // dialog = ScreenRouter.showSimpleErrorDialog(this, titleText = title
-        //        ?: "Error", message = msg ?: "Error, try again.", listener = listener)
-    }
-
-    override fun onLoading(show: Boolean) {
-        when {
-        //show -> if (progressDialog == null) progressDialog = DialogFactory.showProgressDialog(this)
-            else -> {
-                //         DialogFactory.hideProgressDialog(this, progressDialog)
-                //        progressDialog = null
-            }
-        }
-    }
-
 
     fun requestPermission(vararg perms: String?): Observable<Boolean> {
         return rxPermission.request(*perms)

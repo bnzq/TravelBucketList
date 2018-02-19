@@ -16,7 +16,7 @@ object ResUtils {
     fun getAccentColor(): Int = ResUtils.getColor(R.color.colorAccent)
     fun getPrimaryColor(): Int = ResUtils.getColor(R.color.colorPrimary)
     fun getPrimaryDarkColor(): Int = ResUtils.getColor(R.color.colorPrimaryDark)
-    fun getBackgroundColor(): Int = ResUtils.getColor(R.color.white_color)
+    fun getBackgroundColor(): Int = ResUtils.getColor(R.color.white)
     fun getColor(@ColorRes id: Int): Int = ContextCompat.getColor(App.appCtx(), id)
     fun getString(@StringRes id: Int): String = App.appCtx().getString(id)
     fun getDrawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(App.appCtx(), id)

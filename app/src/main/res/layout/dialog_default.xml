@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/dialog_background"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/toolbarTitleTv"
+        style="@style/Wrap"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Verification problem"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvMessage"
+        style="@style/Wrap"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        tools:text="Info main meesgae something mayebe weird meybe fun mevbe i dont know"/>
+
+    <LinearLayout
+        style="@style/MatchWidthHorizontal">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:visibility="visible"
+            tools:text="Cancel"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background=""
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccentDark"
+            android:textSize="14sp"
+            tools:text="Ok"/>
+
+    </LinearLayout>
+
+</LinearLayout>

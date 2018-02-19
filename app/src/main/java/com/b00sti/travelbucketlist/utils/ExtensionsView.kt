@@ -1,13 +1,42 @@
 package com.b00sti.travelbucketlist.utils
 
+import android.support.v4.app.DialogFragment
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.animation.Animation
+import android.widget.Toast
+import com.b00sti.travelbucketlist.R
 
 /**
  * Created by b00sti on 07.02.2018
  */
 
-fun View.showNow() {
+fun AppCompatActivity.toast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+}
+
+fun Fragment.toast(text: String) {
+    Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
+}
+
+fun Fragment.finish() {
+    activity?.finish()
+}
+
+
+fun AppCompatActivity.showProgressDialog(): DialogFragment? {
+    val dialog = ProgressBarDialog.getInstance()
+    dialog.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.AppDialog)
+    dialog.show(this.supportFragmentManager, dialog.tag)
+    return dialog
+}
+
+fun AppCompatActivity.hideProgressDialog(dialog: DialogFragment?) {
+    this.runOnUiThread({ dialog?.dismiss() })
+}
+
+fun View.visible() {
     visibility = View.VISIBLE
 }
 
@@ -23,7 +52,7 @@ fun View.isGone(): Boolean {
     return this.visibility == View.GONE
 }
 
-fun View.isShow(): Boolean {
+fun View.isVisible(): Boolean {
     return this.visibility == View.VISIBLE
 }
 

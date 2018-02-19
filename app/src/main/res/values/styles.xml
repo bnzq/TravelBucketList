@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/white_color</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 
@@ -141,6 +141,19 @@
         <item name="android:elevation">@dimen/button_elevation</item>
         <item name="android:stateListAnimator">@animator/button_press</item>
         <item name="android:background">@drawable/btn_accent_round</item>
+    </style>
+
+    <style name="AppDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:gravity">center</item>
+        <item name="android:backgroundDimAmount">0</item>
     </style>
 
     <style name="Widget.TextInputLayout">
