@@ -33,7 +33,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
     fun printKey() {
         try {
             val info = packageManager.getPackageInfo(
-                    "pl.ready4s.vanderon",
+                    "com.b00sti.travelbucketlist",
                     PackageManager.GET_SIGNATURES)
             for (signature in info.signatures) {
                 val md = MessageDigest.getInstance("SHA")

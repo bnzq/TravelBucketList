@@ -33,7 +33,7 @@ fun AppCompatActivity.showProgressDialog(): DialogFragment? {
 }
 
 fun AppCompatActivity.hideProgressDialog(dialog: DialogFragment?) {
-    this.runOnUiThread({ dialog?.dismiss() })
+    this.runOnUiThread({ dialog?.dismissAllowingStateLoss() })
 }
 
 fun View.visible() {

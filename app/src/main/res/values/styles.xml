@@ -6,12 +6,28 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowContentTransitions">false</item>
     </style>
 
     <style name="Wrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Translucent" parent="Translucent.Base">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Translucent.Base" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:progressBarStyle">@style/InvisibleProgress</item>
+    </style>
+
+    <style name="InvisibleProgress">
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="Match">
@@ -91,9 +107,11 @@
     <style name="AppTextAppearance.Dark" parent="AppTextAppearance">
         <item name="android:textColor">@color/text_dark</item>
     </style>
+
     <style name="AppTextAppearance.Heavy" parent="AppTextAppearance">
         <item name="android:textColor">@color/text</item>
     </style>
+
     <style name="AppTextAppearance.Medium" parent="AppTextAppearance">
         <item name="android:textColor">@color/text_medium</item>
     </style>
@@ -120,7 +138,7 @@
         <item name="android:textColor">@color/text_light</item>
     </style>
 
-    <style name="Widget" />
+    <style name="Widget"/>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
@@ -144,16 +162,12 @@
     </style>
 
     <style name="AppDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTitleStyle">@null</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-        <item name="android:gravity">center</item>
-        <item name="android:backgroundDimAmount">0</item>
     </style>
 
     <style name="Widget.TextInputLayout">

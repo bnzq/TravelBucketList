@@ -14,6 +14,7 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
+        android:background="@color/white"
         style="@style/Match">
 
         <View

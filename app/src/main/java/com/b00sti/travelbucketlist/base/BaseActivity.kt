@@ -41,7 +41,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
 
     override fun onStop() {
         super.onStop()
-        pb?.dismiss()
+        pb?.dismissAllowingStateLoss()
     }
 
     private fun performDataBinding() {

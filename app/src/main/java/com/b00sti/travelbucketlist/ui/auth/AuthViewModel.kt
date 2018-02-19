@@ -5,6 +5,7 @@ import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.facebook.login.LoginResult
 import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 /**
  * Created by b00sti on 13.02.2018
@@ -25,6 +26,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
                             getNavigator().openMainActivity()
                         },
                         onComplete = {
+                            Timber.d("Complete")
                         },
                         onError = {
                             it.printStackTrace()

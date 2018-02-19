@@ -1,6 +1,7 @@
 package com.b00sti.travelbucketlist.ui.auth
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
@@ -31,13 +32,26 @@ class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>(), AuthNav
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.activity_auth
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data?.let {
+            RxFacebook.postLoginActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     fun onFacebookClick() {
         if (SystemUtils.isConnected()) {
             RxFacebook.create().loginWithReadPermissions(this, Arrays.asList("email", "public_profile", "user_friends"))
-                    .compose(RxUtils.applyObservableSchedulers()).subscribeBy(
-                    onNext = { viewModel.handleFacebookResult(it) },
-                    onError = { showErrorDialog("Failed to log in with facebook,\n try again or choose another method!") }
-            )
+                    .compose(RxUtils.applyObservableSchedulers()).
+                    subscribeBy(
+                            onNext = {
+                                viewModel.handleFacebookResult(it)
+                            },
+                            onError = {
+                                it.printStackTrace()
+                                showErrorDialog("Failed to log in with facebook,\n try again or choose another method!")
+                            }
+                    )
         } else showErrorDialog(R.string.no_connection)
     }
 

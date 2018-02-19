@@ -49,12 +49,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     }
 
     override fun openRegisterFragment() {
+        onLoading(true)
         //makeRegisterSharedViews()
-        if (views.contains(null)) return
+/*        if (views.contains(null)) return
         val register = RegisterFragment.getInstance()
-/*        register.sharedElementEnterTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
-        register.sharedElementReturnTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)*/
-        getBase()?.pushFragments(register, R.id.flAuthContainer, shouldAnimate = false)
+*//*        register.sharedElementEnterTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
+        register.sharedElementReturnTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)*//*
+        getBase()?.pushFragments(register, R.id.flAuthContainer, shouldAnimate = false)*/
     }
 
     override fun openForgotFragment() {

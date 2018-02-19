@@ -40,7 +40,9 @@ object ScreenRouter {
     }
 
     fun goToMainActivity(activity: Activity?) {
-        startWithoutParams(activity, MainActivity::class)
+        start(activity, {
+            runSimpleActivityWithClearedTop(activity, MainActivity::class)
+        })
     }
 
     private fun startWithoutParams(activity: Activity?, clazz: KClass<*>) {
@@ -82,6 +84,7 @@ object ScreenRouter {
         val intent = Intent(activity, clazz.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        activity?.finish()
         activity?.startActivity(intent)
     }
 }
