@@ -1,4 +1,4 @@
-package com.b00sti.travelbucketlist.ui.main.auth.splash
+package com.b00sti.travelbucketlist.ui.auth.splash
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle

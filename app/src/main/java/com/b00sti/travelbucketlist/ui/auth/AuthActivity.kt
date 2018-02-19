@@ -1,4 +1,4 @@
-package com.b00sti.travelbucketlist.ui.main.auth
+package com.b00sti.travelbucketlist.ui.auth
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -6,10 +6,7 @@ import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseActivity
 import com.b00sti.travelbucketlist.databinding.ActivityAuthBinding
-import com.b00sti.travelbucketlist.ui.main.auth.login.LoginFragment
-import com.b00sti.travelbucketlist.ui.main.auth.register.RegisterFragment
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import timber.log.Timber
+import com.b00sti.travelbucketlist.ui.auth.login.LoginFragment
 
 /**
  * Created by b00sti on 13.02.2018

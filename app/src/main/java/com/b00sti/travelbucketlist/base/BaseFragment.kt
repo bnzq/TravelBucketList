@@ -25,7 +25,8 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fra
 
     protected abstract fun getViewModels(): V
     protected abstract fun getBindingVariable(): Int
-    @LayoutRes protected abstract fun getLayoutId(): Int
+    @LayoutRes
+    protected abstract fun getLayoutId(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +50,18 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fra
     }
 
     inline fun <reified T : BaseActivity<*, *>> getParent(): T? = activity as? T
+    fun getBase(): BaseActivity<*, *>? = activity as BaseActivity<*, *>
     override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))
     override fun showToast(message: String) = toast(message)
     override fun onLoading(loading: Boolean) = getParent<BaseActivity<*, *>>()?.onLoading(loading)
+    override fun showErrorDialog(resMsg: Int, resTitle: Int) = getBase()?.showErrorDialog(resMsg, resTitle)
+            ?: Unit
+
+    override fun showErrorDialog(msg: String?, title: String?) = getBase()?.showErrorDialog(msg, title)
+            ?: Unit
+
+    override fun showErrorDialog(msg: String?, title: String?, listener: (View) -> Unit) = getBase()?.showErrorDialog(msg, title, listener)
+            ?: Unit
 
     @JvmOverloads
     fun addViewTransitions(context: Context? = getContext(), enter: Int, exit: Int = enter, duration: Long) {

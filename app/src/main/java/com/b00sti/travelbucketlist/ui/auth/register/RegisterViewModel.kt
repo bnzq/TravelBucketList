@@ -1,4 +1,4 @@
-package com.b00sti.travelbucketlist.ui.main.auth.register
+package com.b00sti.travelbucketlist.ui.auth.register
 
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField

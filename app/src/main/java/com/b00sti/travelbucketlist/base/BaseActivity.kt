@@ -64,6 +64,18 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         }
     }
 
+    override fun showErrorDialog(resMsg: Int, resTitle: Int) {
+        ScreenRouter.showSimpleErrorDialog(this, ResUtils.getString(resMsg), ResUtils.getString(resTitle))
+    }
+
+    override fun showErrorDialog(msg: String?, title: String?) {
+        ScreenRouter.showSimpleErrorDialog(this, msg, title)
+    }
+
+    override fun showErrorDialog(msg: String?, title: String?, listener: (View) -> Unit) {
+        ScreenRouter.showSimpleErrorDialog(this, title, title, listener = listener)
+    }
+
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         currentFocus?.let {
             it.clearFocus()

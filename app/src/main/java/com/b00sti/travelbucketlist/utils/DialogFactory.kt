@@ -14,15 +14,19 @@ import com.b00sti.travelbucketlist.R
  * Created by b00sti on 19.02.2018
  */
 object DialogFactory {
+    private const val DEFAULT_DIALOG_MESSAGE = "Please try again"
+    private const val DEFAULT_DIALOG_TITLE = "Error"
+    private const val DEFAULT_DIALOG_RIGHT_BTN = "OK"
+    private const val DEFAULT_DIALOG_LEFT_BTN = "CANCEL"
 
     fun showSimpleDialog(context: Context?,
-                         message: String = "Please try again",
-                         titleText: String = "Error",
-                         rightBtnText: String = "OK",
+                         message: String? = DEFAULT_DIALOG_MESSAGE,
+                         titleText: String? = DEFAULT_DIALOG_TITLE,
+                         rightBtnText: String? = DEFAULT_DIALOG_RIGHT_BTN,
                          rightBtnListener: (View) -> Unit = ScreenRouter.EMPTY_METHOD,
                          rightBtnDismiss: Boolean = false,
                          leftBtnEnabled: Boolean = false,
-                         leftBtnText: String = "CANCEL",
+                         leftBtnText: String? = DEFAULT_DIALOG_LEFT_BTN,
                          leftBtnListener: (View) -> Unit = ScreenRouter.EMPTY_METHOD,
                          leftBtnDismiss: Boolean = false): Dialog? {
         when {

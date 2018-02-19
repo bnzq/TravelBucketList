@@ -1,10 +1,6 @@
-package com.b00sti.travelbucketlist.ui.main.auth
+package com.b00sti.travelbucketlist.ui.auth
 
-import com.b00sti.travelbucketlist.api.RxFirebaseAuth
 import com.b00sti.travelbucketlist.base.BaseViewModel
-import com.b00sti.travelbucketlist.utils.RxUtils
-import com.facebook.login.LoginResult
-import com.google.firebase.auth.FirebaseUser
 
 /**
  * Created by b00sti on 13.02.2018

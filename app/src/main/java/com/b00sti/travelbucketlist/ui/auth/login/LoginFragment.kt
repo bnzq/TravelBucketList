@@ -1,15 +1,15 @@
-package com.b00sti.travelbucketlist.ui.main.auth.login
+package com.b00sti.travelbucketlist.ui.auth.login
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.transition.TransitionInflater
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.databinding.FragmentLoginBinding
-import com.b00sti.travelbucketlist.ui.main.auth.register.RegisterFragment
+import com.b00sti.travelbucketlist.ui.auth.register.RegisterFragment
 import com.b00sti.travelbucketlist.utils.ScreenRouter
+import com.b00sti.travelbucketlist.utils.finish
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_register.*
 
@@ -43,8 +43,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     override fun loginFacebook() {}//(getBaseActivity() as AuthActivity).onFacebookClick()
 
     override fun openMainActivity() {
-        ScreenRouter.goToMainActivity(getBaseActivity())
-        getBaseActivity().finish()
+        ScreenRouter.goToMainActivity(getBase())
+        finish()
     }
 
     override fun openRegisterFragment() {
@@ -53,7 +53,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
         val register = RegisterFragment.getInstance()
 /*        register.sharedElementEnterTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
         register.sharedElementReturnTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)*/
-        getBaseActivity().pushFragments(register, R.id.flAuthContainer, shouldAnimate = false)
+        getBase()?.pushFragments(register, R.id.flAuthContainer, shouldAnimate = false)
     }
 
     override fun openForgotFragment() {

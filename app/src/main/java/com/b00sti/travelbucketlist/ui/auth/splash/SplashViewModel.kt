@@ -1,4 +1,4 @@
-package com.b00sti.travelbucketlist.ui.main.auth.splash
+package com.b00sti.travelbucketlist.ui.auth.splash
 
 import com.b00sti.travelbucketlist.base.BaseViewModel
 

@@ -1,11 +1,13 @@
 package com.b00sti.travelbucketlist.utils
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.b00sti.travelbucketlist.ui.auth.AuthActivity
 import com.b00sti.travelbucketlist.ui.main.MainActivity
-import com.b00sti.travelbucketlist.ui.main.auth.AuthActivity
 import timber.log.Timber
 import kotlin.reflect.KClass
 
@@ -15,21 +17,22 @@ import kotlin.reflect.KClass
 object ScreenRouter {
     val EMPTY_METHOD: (View) -> Unit = {}
 
-/*    fun showSimpleErrorDialog(
-            context: Context?, message: String = "Please try again",
-            titleText: String = "Error", buttonText: String = "ok",
+    fun showSimpleErrorDialog(
+            context: Context?, message: String? = "Please try again",
+            titleText: String? = "Error", buttonText: String? = "ok",
             listener: (View) -> Unit = EMPTY_METHOD, dismiss: Boolean = false
     ): Dialog? {
         return DialogFactory.showSimpleDialog(context, message, titleText, buttonText, listener, dismiss)
     }
 
-    fun goToReviewActivity(activity: Activity, placeId: String, userId: String) {
-        val bundle = Bundle()
-        bundle.putString("user", userId)
-        bundle.putString("place", placeId)
-        startWithParams(activity, ReviewActivity::class, bundle)
-    }
-*/
+    /*
+        fun goToReviewActivity(activity: Activity, placeId: String, userId: String) {
+            val bundle = Bundle()
+            bundle.putString("user", userId)
+            bundle.putString("place", placeId)
+            startWithParams(activity, ReviewActivity::class, bundle)
+        }
+    */
     fun goToAuthActivity(activity: Activity?) {
         start(activity, {
             runSimpleActivityWithClearedTop(activity, AuthActivity::class)

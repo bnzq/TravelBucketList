@@ -1,4 +1,4 @@
-package com.b00sti.travelbucketlist.ui.main.auth.login
+package com.b00sti.travelbucketlist.ui.auth.login
 
 import com.b00sti.travelbucketlist.base.BaseNavigator
 

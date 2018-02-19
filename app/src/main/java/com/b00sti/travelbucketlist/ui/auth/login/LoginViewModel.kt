@@ -1,4 +1,4 @@
-package com.b00sti.travelbucketlist.ui.main.auth.login
+package com.b00sti.travelbucketlist.ui.auth.login
 
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
@@ -8,7 +8,6 @@ import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.Validation.validateEmail
 import com.b00sti.travelbucketlist.utils.Validation.validatePassword
-import io.reactivex.rxkotlin.subscribeBy
 
 /**
  * Created by b00sti on 15.02.2018
