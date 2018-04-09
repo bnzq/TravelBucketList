@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.android.databinding.library.baseAdapters.BR
 import com.b00sti.travelbucketlist.base.BaseViewHolder
 import com.b00sti.travelbucketlist.base.BaseViewModel
+import com.b00sti.travelbucketlist.databinding.ItemCountryBinding
 
 
 /**

@@ -9,6 +9,7 @@ import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.Validation
+import com.b00sti.travelbucketlist.utils.getOrEmpty
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
@@ -27,27 +28,27 @@ class RegisterViewModel : BaseViewModel<RegisterNavigator>() {
         if (!focus)
             when (view.id) {
                 R.id.tietEmailRegister -> Validation.validateEmail(email, emailValid)
-                R.id.tietUsernameRegister -> Validation.validateUsername(name.get(), nameValid)
+                R.id.tietUsernameRegister -> Validation.validateUsername(name.getOrEmpty(), nameValid)
                 R.id.tietPasswordRegister -> Validation.validatePassword(password, passwordValid)
                 R.id.tietPasswordConfirmRegister -> Validation.validatePasswordConfirm(password, passwordConfirm, passwordConfirmValid)
             }
     }
 
     fun afterChangeEmpty() {
-        if (email.get().isEmpty()) Validation.validateEmail(email, emailValid)
-        if (name.get().isEmpty()) Validation.validateUsername(name.get(), nameValid)
-        if (password.get().isEmpty()) Validation.validatePassword(password, passwordValid)
-        if (passwordConfirm.get().isEmpty()) Validation.validatePasswordConfirm(password, passwordConfirm, passwordConfirmValid)
+        if (email.getOrEmpty().isEmpty()) Validation.validateEmail(email, emailValid)
+        if (name.getOrEmpty().isEmpty()) Validation.validateUsername(name.getOrEmpty(), nameValid)
+        if (password.getOrEmpty().isEmpty()) Validation.validatePassword(password, passwordValid)
+        if (passwordConfirm.getOrEmpty().isEmpty()) Validation.validatePasswordConfirm(password, passwordConfirm, passwordConfirmValid)
     }
 
     fun onRegisterClick() {
         Timber.d("register ")
         if (Validation.validateEmail(email, emailValid)
-                && Validation.validateUsername(name.get(), nameValid)
+                && Validation.validateUsername(name.getOrEmpty(), nameValid)
                 && Validation.validatePassword(password, passwordValid)
                 && Validation.validatePasswordConfirm(password, passwordConfirm, passwordConfirmValid)) {
 
-            getCompositeDisposable().add(RxFirebaseAuth.registerAndGetToken(email.get(), password.get(), name.get())
+            getCompositeDisposable().add(RxFirebaseAuth.registerAndGetToken(email.getOrEmpty(), password.getOrEmpty(), name.getOrEmpty())
                     .compose(RxUtils.applyObservableSchedulers())
                     .doOnSubscribe { getNavigator().onLoading(true) }
                     .subscribeBy(

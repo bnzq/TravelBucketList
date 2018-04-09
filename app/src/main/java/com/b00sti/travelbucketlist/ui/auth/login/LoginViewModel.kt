@@ -10,6 +10,7 @@ import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.Validation.validateEmail
 import com.b00sti.travelbucketlist.utils.Validation.validatePassword
+import com.b00sti.travelbucketlist.utils.getOrEmpty
 import io.reactivex.rxkotlin.subscribeBy
 
 /**
@@ -30,14 +31,14 @@ class LoginViewModel : BaseViewModel<LoginNavigator>() {
     }
 
     fun afterChangeEmpty() {
-        if (email.get().isEmpty()) validateEmail(email, emailValid)
-        if (password.get().isEmpty()) validatePassword(password, passwordValid)
+        if (email.getOrEmpty().isEmpty()) validateEmail(email, emailValid)
+        if (password.getOrEmpty().isEmpty()) validatePassword(password, passwordValid)
     }
 
     fun onLoginClick() {
         if (validateEmail(email, emailValid) && validatePassword(password, passwordValid)) {
             getCompositeDisposable()
-                    .add(RxFirebaseAuth.loginCredentials(email.get(), password.get())
+                    .add(RxFirebaseAuth.loginCredentials(email.getOrEmpty(), password.getOrEmpty())
                             .compose(RxUtils.applyObservableSchedulers())
                             .doOnSubscribe { getNavigator().onLoading(true) }
                             .doAfterTerminate { getNavigator().onLoading(false) }

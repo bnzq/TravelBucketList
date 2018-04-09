@@ -2,10 +2,13 @@ package com.b00sti.travelbucketlist.ui.countries
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseFragment
-import com.b00sti.travelbucketlist.utils.adapter.CONTINENTS
+import com.b00sti.travelbucketlist.databinding.FragmentCountriesBinding
 import com.b00sti.travelbucketlist.utils.adapter.CountryAdapter
 import com.b00sti.travelbucketlist.utils.adapter.CountryItem
 import com.b00sti.travelbucketlist.utils.adapter.CountryNavigator
@@ -17,6 +20,19 @@ import kotlinx.android.synthetic.main.fragment_countries.*
  */
 class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(), CountriesNavigator {
 
+    private val adapter = CountryAdapter(object : CountryNavigator {
+
+        override fun onItemClicked(countryItem: CountryItem) {
+            toast("Item ${countryItem.name} clicked")
+        }
+
+        override fun onDeleteClicked(countryItem: CountryItem) {
+            //viewModel.countriesList.value?.remove(countryItem)
+            toast("Item ${countryItem.name} removed")
+        }
+
+    })
+
     companion object {
         fun getInstance(): CountriesFragment {
             return CountriesFragment()
@@ -27,27 +43,15 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_countries
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.setNavigator(this)
-        val adapter = CountryAdapter(object : CountryNavigator {
-
-            override fun onItemClicked(countryItem: CountryItem) {
-                toast("Item ${countryItem.name} clicked")
-            }
-
-            override fun onDeleteClicked(countryItem: CountryItem) {
-                viewModel.countriesList.value?.remove(countryItem)
-                toast("Item ${countryItem.name} removed")
-            }
-
-        })
         viewModel.countriesList.observe(this, Observer { list -> adapter.submitList(list) })
-        val items = arrayListOf(CountryItem("Poland", CONTINENTS.EUROPE, true, ""),
-                CountryItem("France", CONTINENTS.EUROPE, false, ""),
-                CountryItem("Spain", CONTINENTS.EUROPE, true, ""))
-        viewModel.countriesList.postValue(items)
+        rvCountries.layoutManager = LinearLayoutManager(view.context)
         rvCountries.adapter = adapter
     }
 
+    override fun refreshList() {
+
+    }
 }

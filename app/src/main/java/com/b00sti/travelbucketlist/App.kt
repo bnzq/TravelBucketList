@@ -6,10 +6,6 @@ import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import timber.log.Timber
 
-/**
- * @author Michał Palczyński
- * @since 12.12.2017.
- */
 class App : Application() {
 
     init {
