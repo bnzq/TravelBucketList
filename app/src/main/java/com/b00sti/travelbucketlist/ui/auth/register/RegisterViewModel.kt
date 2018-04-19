@@ -48,7 +48,7 @@ class RegisterViewModel : BaseViewModel<RegisterNavigator>() {
                 && Validation.validatePassword(password, passwordValid)
                 && Validation.validatePasswordConfirm(password, passwordConfirm, passwordConfirmValid)) {
 
-            getCompositeDisposable().add(RxFirebaseAuth.registerAndGetToken(email.getOrEmpty(), password.getOrEmpty(), name.getOrEmpty())
+            getDisposables().add(RxFirebaseAuth.registerAndGetToken(email.getOrEmpty(), password.getOrEmpty(), name.getOrEmpty())
                     .compose(RxUtils.applyObservableSchedulers())
                     .doOnSubscribe { getNavigator().onLoading(true) }
                     .subscribeBy(

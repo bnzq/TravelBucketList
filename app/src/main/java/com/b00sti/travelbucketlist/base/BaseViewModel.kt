@@ -16,7 +16,6 @@ abstract class BaseViewModel<N : BaseNavigator> : ViewModel() {
     private lateinit var mNavigator: N
     private var mCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
-
     fun getNavigator(): N = mNavigator
 
     fun setNavigator(navigator: N) {
@@ -24,43 +23,50 @@ abstract class BaseViewModel<N : BaseNavigator> : ViewModel() {
     }
 
     fun delayedAction(delay: Long, action: Action) {
-        getCompositeDisposable().add(Completable.timer(delay, TimeUnit.MILLISECONDS)
-                .compose(RxUtils.applyCompletableSchedulers()).subscribe(action))
+        getDisposables().add(Completable.timer(delay, TimeUnit.MILLISECONDS)
+                .compose(RxUtils.applyCompletableSchedulers())
+                .subscribe(action))
     }
 
     override fun onCleared() {
         super.onCleared()
-        mCompositeDisposable.dispose()
+        mCompositeDisposable.clear()
     }
 
     open fun onBackBtnClick() {}
     open fun onEditBtnClick() {}
 
-    fun getCompositeDisposable(): CompositeDisposable {
-        if (mCompositeDisposable.isDisposed) mCompositeDisposable = CompositeDisposable()
+    fun getDisposables(): CompositeDisposable {
+        initDisposables()
         return mCompositeDisposable
     }
 
-    fun <T : Any> fetch(d: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getNavigator().onError(it) }, onComplete: () -> Unit = {}) {
-        if (mCompositeDisposable.isDisposed) mCompositeDisposable = CompositeDisposable()
-        mCompositeDisposable.add(d.subscribeBy(
-                onNext = { onSuccess.invoke(it) },
-                onError = { onError.invoke(it) },
-                onComplete = { onComplete.invoke() }
-        ))
+    fun <T : Any> fetch(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getNavigator().onError(it) }, onComplete: () -> Unit = {}) {
+        initDisposables()
+        mCompositeDisposable.add(observable
+                .subscribeBy(
+                        onNext = { onSuccess.invoke(it) },
+                        onError = { onError.invoke(it) },
+                        onComplete = { onComplete.invoke() }
+                ))
     }
 
     fun <T : Any> fetchWithPb(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getNavigator().onError(it) }, onComplete: () -> Unit = {}) {
-        if (mCompositeDisposable.isDisposed) mCompositeDisposable = CompositeDisposable()
-        mCompositeDisposable.add(
-                observable
-                        .doOnSubscribe({ getNavigator().onLoading(true) })
-                        .doOnTerminate({ getNavigator().onLoading(false) })
-                        .subscribeBy(
-                                onNext = { onSuccess.invoke(it) },
-                                onError = { onError.invoke(it) },
-                                onComplete = { onComplete.invoke() }
-                        ))
+        initDisposables()
+        mCompositeDisposable.add(observable
+                .doOnSubscribe({ getNavigator().onLoading(true) })
+                .doOnTerminate({ getNavigator().onLoading(false) })
+                .subscribeBy(
+                        onNext = { onSuccess.invoke(it) },
+                        onError = { onError.invoke(it) },
+                        onComplete = { onComplete.invoke() }
+                ))
+    }
+
+    private fun initDisposables() {
+        if (mCompositeDisposable.isDisposed) {
+            mCompositeDisposable = CompositeDisposable()
+        }
     }
 
 }

@@ -18,7 +18,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
 
 
     fun handleFacebookResult(result: LoginResult) {
-        getCompositeDisposable().add(RxFirebaseAuth.loginFacebook(result.accessToken)
+        getDisposables().add(RxFirebaseAuth.loginFacebook(result.accessToken)
                 .compose(RxUtils.applyObservableSchedulers())
                 .doOnSubscribe { getNavigator().onLoading(true) }
                 .subscribeBy(
@@ -37,7 +37,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
 
 /*
     fun handleFacebookResult(result: LoginResult) {
-        getCompositeDisposable().add(RxFirebaseAuth.loginAndGetDataFromFacebook(result.accessToken)
+        getDisposables().add(RxFirebaseAuth.loginAndGetDataFromFacebook(result.accessToken)
                 .compose(RxUtils.applyObservableSchedulers())
                 .doOnSubscribe { getNavigator().onLoading(true) }
                 .subscribeBy(
@@ -51,7 +51,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
 
 
 /*    private fun addUser(token: String, user: FirebaseUser, facebookId: String? = null, friends: ArrayList<FacebookFriend>?) {
-        getCompositeDisposable().add(NetworkManager.loginUser(token, AuthRequest(user, facebookId, friends))
+        getDisposables().add(NetworkManager.loginUser(token, AuthRequest(user, facebookId, friends))
                 .compose(RxUtils.applyObservableSchedulers())
                 .doAfterTerminate { getNavigator().onLoading(false) }
                 .subscribeBy(

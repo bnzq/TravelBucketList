@@ -37,7 +37,7 @@ class LoginViewModel : BaseViewModel<LoginNavigator>() {
 
     fun onLoginClick() {
         if (validateEmail(email, emailValid) && validatePassword(password, passwordValid)) {
-            getCompositeDisposable()
+            getDisposables()
                     .add(RxFirebaseAuth.loginCredentials(email.getOrEmpty(), password.getOrEmpty())
                             .compose(RxUtils.applyObservableSchedulers())
                             .doOnSubscribe { getNavigator().onLoading(true) }
