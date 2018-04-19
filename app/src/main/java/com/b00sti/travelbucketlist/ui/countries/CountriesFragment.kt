@@ -46,12 +46,16 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setNavigator(this)
+        initUI()
+    }
+
+    private fun initUI() {
         viewModel.countriesList.observe(this, Observer { list -> adapter.submitList(list) })
-        rvCountries.layoutManager = LinearLayoutManager(view.context)
+        rvCountries.layoutManager = LinearLayoutManager(getParent())
         rvCountries.adapter = adapter
     }
 
-    override fun refreshList() {
+    override fun onRefreshCompleted() {
 
     }
 }

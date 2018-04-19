@@ -76,6 +76,13 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         ScreenRouter.showSimpleErrorDialog(this, title, title, listener = listener)
     }
 
+    override fun onError(throwable: Throwable) {
+        val error = ExceptionsCenter.handleException(throwable)
+        if (!error.message.isNullOrBlank()) {
+            toast(error.message ?: "")
+        }
+    }
+
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         currentFocus?.let {
             it.clearFocus()
@@ -120,7 +127,6 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         ft.replace(content, fragment, fragment::class.java.name)
 
         try {
-
             ft.commit()
             manager.executePendingTransactions()
         } catch (e: Exception) {

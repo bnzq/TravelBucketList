@@ -16,5 +16,6 @@ interface BaseNavigator {
     fun showErrorDialog(@StringRes resMsg: Int, @StringRes resTitle: Int = R.string.default_error)
     fun showErrorDialog(msg: String?, title: String? = null)
     fun showErrorDialog(msg: String?, title: String? = null, listener: (View) -> Unit = ScreenRouter.EMPTY_METHOD)
+    fun onError(throwable: Throwable)
 
 }

@@ -7,6 +7,6 @@ import com.b00sti.travelbucketlist.base.BaseNavigator
  */
 interface CountriesNavigator : BaseNavigator {
 
-    fun refreshList()
+    fun onRefreshCompleted()
 
 }
