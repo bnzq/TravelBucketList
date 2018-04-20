@@ -12,11 +12,13 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by b00sti on 08.02.2018
  */
-abstract class BaseViewModel<N : BaseNavigator> : ViewModel() {
+abstract class BaseViewModel<N : EmptyNavigator> : ViewModel() {
     private lateinit var mNavigator: N
     private var mCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun getNavigator(): N = mNavigator
+
+    fun getBaseNavigator(): BaseNavigator = mNavigator as BaseNavigator
 
     fun setNavigator(navigator: N) {
         this.mNavigator = navigator
@@ -41,7 +43,7 @@ abstract class BaseViewModel<N : BaseNavigator> : ViewModel() {
         return mCompositeDisposable
     }
 
-    fun <T : Any> fetch(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getNavigator().onError(it) }, onComplete: () -> Unit = {}) {
+    fun <T : Any> fetch(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getBaseNavigator().onError(it) }, onComplete: () -> Unit = {}) {
         initDisposables()
         mCompositeDisposable.add(observable
                 .subscribeBy(
@@ -51,11 +53,11 @@ abstract class BaseViewModel<N : BaseNavigator> : ViewModel() {
                 ))
     }
 
-    fun <T : Any> fetchWithPb(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getNavigator().onError(it) }, onComplete: () -> Unit = {}) {
+    fun <T : Any> fetchWithPb(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getBaseNavigator().onError(it) }, onComplete: () -> Unit = {}) {
         initDisposables()
         mCompositeDisposable.add(observable
-                .doOnSubscribe({ getNavigator().onLoading(true) })
-                .doOnTerminate({ getNavigator().onLoading(false) })
+                .doOnSubscribe({ getBaseNavigator().onLoading(true) })
+                .doOnTerminate({ getBaseNavigator().onLoading(false) })
                 .subscribeBy(
                         onNext = { onSuccess.invoke(it) },
                         onError = { onError.invoke(it) },

@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.b00sti.travelbucketlist.utils.adapter.CountryViewModel"/>
+            type="com.b00sti.travelbucketlist.base.AdapterViewModel&lt;com.b00sti.travelbucketlist.utils.adapter.BucketItem>"/>
 
     </data>
 
@@ -26,7 +26,7 @@
             android:gravity="start"
             android:paddingEnd="24dp"
             android:paddingStart="24dp"
-            android:text="@{vm.countryItem.name}"
+            android:text="@{vm.item.name}"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/tvSearchPlaceDesc"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,6 @@
             android:id="@+id/ivCountryImage"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:onClick="@{()->vm.onDeleteClicked()}"
             android:src="@drawable/ic_clear_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

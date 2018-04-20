@@ -49,6 +49,8 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fra
         viewDataBinding.executePendingBindings()
     }
 
+    override fun onError(throwable: Throwable) {
+    }
     inline fun <reified T : BaseActivity<*, *>> getParent(): T? = activity as? T
     fun getBase(): BaseActivity<*, *>? = activity as BaseActivity<*, *>
     override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))

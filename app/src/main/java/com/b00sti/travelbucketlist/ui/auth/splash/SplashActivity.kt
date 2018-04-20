@@ -9,11 +9,9 @@ import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseActivity
 import com.b00sti.travelbucketlist.databinding.ActivitySplashBinding
 import com.b00sti.travelbucketlist.utils.ScreenRouter
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.subscribeBy
+import com.google.firebase.auth.FirebaseAuth
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by b00sti on 15.02.2018
@@ -49,19 +47,24 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
 
     fun coninue() {
         viewModel.setNavigator(this)
-        Observable.just(1).delay(1, TimeUnit.SECONDS).subscribeBy {
+        /*Observable.just(1).delay(1, TimeUnit.SECONDS).subscribeBy {
             finish()
-            ScreenRouter.goToAuthActivity(this) }
+            ScreenRouter.goToAuthActivity(this) }*/
         //viewModel.getUser()
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            openMainActivity()
+        } else {
+            openAuthActivity()
+        }
     }
 
     override fun openMainActivity() {
-        //ScreenRouter.goToMainActivity(this)
+        ScreenRouter.goToMainActivity(this)
         finish()
     }
 
     override fun openAuthActivity() {
-        //ScreenRouter.goToAuthActivity(this)
+        ScreenRouter.goToAuthActivity(this)
         finish()
     }
 }

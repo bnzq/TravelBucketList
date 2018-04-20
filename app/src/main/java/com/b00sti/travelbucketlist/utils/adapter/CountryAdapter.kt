@@ -1,10 +1,11 @@
 package com.b00sti.travelbucketlist.utils.adapter
 
-import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.databinding.library.baseAdapters.BR
+import com.b00sti.travelbucketlist.base.AdapterNavigator
+import com.b00sti.travelbucketlist.base.BaseAdapter
 import com.b00sti.travelbucketlist.base.BaseViewHolder
 import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.databinding.ItemCountryBinding
@@ -26,16 +27,13 @@ enum class CONTINENTS {
 
 data class CountryItem(val name: String = "", val continent: CONTINENTS, val visited: Boolean, val photoUri: String)
 
-interface CountryNavigator {
-    fun onItemClicked(countryItem: CountryItem)
+interface CountryNavigator : AdapterNavigator<CountryItem> {
     fun onDeleteClicked(countryItem: CountryItem)
 }
 
 class CountryViewModel(val countryItem: CountryItem) : BaseViewModel<CountryNavigator>() {
-
     fun onItemClicked() = getNavigator().onItemClicked(countryItem)
-    fun onItemDeleted() = getNavigator().onDeleteClicked(countryItem)
-
+    fun onDeleteClicked() = getNavigator().onDeleteClicked(countryItem)
 }
 
 private val ITEM_CALLBACK = object : DiffUtil.ItemCallback<CountryItem>() {
@@ -43,15 +41,12 @@ private val ITEM_CALLBACK = object : DiffUtil.ItemCallback<CountryItem>() {
     override fun areContentsTheSame(oldItem: CountryItem, newItem: CountryItem): Boolean = oldItem == newItem
 }
 
-class CountryAdapter(val callback: CountryNavigator) : ListAdapter<CountryItem, CountryAdapter.CountryHolder>(ITEM_CALLBACK) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryAdapter.CountryHolder = CountryHolder(ItemCountryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-
-    override fun onBindViewHolder(holder: CountryHolder, position: Int) = holder.onBind(position)
+class CountryAdapter(val callback: CountryNavigator) : BaseAdapter<CountryItem, CountryAdapter.CountryHolder>(ITEM_CALLBACK) {
+    override fun getViewHolder(parent: ViewGroup): CountryHolder = CountryHolder(ItemCountryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     inner class CountryHolder(binding: ItemCountryBinding) : BaseViewHolder<ItemCountryBinding, CountryViewModel>(binding), CountryNavigator {
 
-        override fun onItemClicked(countryItem: CountryItem) = callback.onItemClicked(countryItem)
+        override fun onItemClicked(item: CountryItem) = callback.onItemClicked(item)
         override fun onDeleteClicked(countryItem: CountryItem) = callback.onDeleteClicked(countryItem)
 
         override fun getViewModel(position: Int): CountryViewModel {
@@ -61,6 +56,5 @@ class CountryAdapter(val callback: CountryNavigator) : ListAdapter<CountryItem, 
         }
 
         override fun getBindingVariable(): Int = BR.vm
-
     }
 }

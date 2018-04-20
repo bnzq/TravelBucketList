@@ -8,7 +8,10 @@ import com.b00sti.travelbucketlist.utils.ScreenRouter
 /**
  * Created by b00sti on 08.02.2018
  */
-interface BaseNavigator {
+
+interface EmptyNavigator
+
+interface BaseNavigator : EmptyNavigator {
 
     fun showToast(@StringRes resMsg: Int)
     fun showToast(message: String)

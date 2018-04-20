@@ -3,6 +3,7 @@ package com.b00sti.travelbucketlist.ui.main
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.b00sti.travelbucketlist.base.BaseFragment
+import com.b00sti.travelbucketlist.ui.buckets.BucketsFragment
 import com.b00sti.travelbucketlist.ui.countries.CountriesFragment
 import com.b00sti.travelbucketlist.utils.EmptyFragment
 
@@ -14,7 +15,7 @@ class MainPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(
 
     init {
         fragments.add(EmptyFragment.getInstance("1"))
-        fragments.add(EmptyFragment.getInstance("2"))
+        fragments.add(BucketsFragment.getInstance())
         fragments.add(CountriesFragment.getInstance())
     }
 

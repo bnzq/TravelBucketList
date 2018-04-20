@@ -14,6 +14,13 @@ class CountriesVM : BaseViewModel<CountriesNavigator>() {
 
     val countriesList = MutableLiveData<List<CountryItem>>()
 
+    fun removeItem(item: CountryItem) {
+        val list = countriesList.value?.toMutableList()
+        list?.contains(item)
+        list?.remove(item)
+        countriesList.postValue(list)
+    }
+
     fun refresh() {
         fetchWithPb(getCountries(), { countriesList.postValue(it) })
     }
@@ -33,7 +40,7 @@ class CountriesVM : BaseViewModel<CountriesNavigator>() {
                 //countriesList.postValue(items)
             }
             emitter.onComplete()
-            emitter.onError(Throwable())
+            //emitter.onError(Throwable())
         }
     }
 

@@ -21,14 +21,18 @@ import kotlinx.android.synthetic.main.fragment_countries.*
 class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(), CountriesNavigator {
 
     private val adapter = CountryAdapter(object : CountryNavigator {
-
+        override fun onItemClicked(item: CountryItem) {
+            toast("Item ${item.name} clicked")
+        }
+/*
         override fun onItemClicked(countryItem: CountryItem) {
             toast("Item ${countryItem.name} clicked")
-        }
+        }*/
 
         override fun onDeleteClicked(countryItem: CountryItem) {
             //viewModel.countriesList.value?.remove(countryItem)
             toast("Item ${countryItem.name} removed")
+            viewModel.removeItem(countryItem)
         }
 
     })
