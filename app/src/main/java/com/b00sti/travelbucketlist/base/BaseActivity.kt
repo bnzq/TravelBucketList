@@ -30,7 +30,9 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
     @LayoutRes
     protected abstract fun getLayoutId(): Int
 
-    val DOUBLE_TAP_TIMEOUT = 2000L
+    companion object {
+        const val DOUBLE_TAP_TIMEOUT = 2000L
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
