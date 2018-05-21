@@ -17,39 +17,39 @@ import com.b00sti.travelbucketlist.utils.toast
  * Created by b00sti on 08.02.2018
  */
 abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fragment(), BaseNavigator {
+
     private lateinit var viewDataBinding: T
     val viewModel: V by lazy { getViewModels() }
     private lateinit var mRootView: View
-    private lateinit var mActivity: BaseActivity<*, *>
-    var allowBackPress = true
 
     protected abstract fun getViewModels(): V
     protected abstract fun getBindingVariable(): Int
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
+    @LayoutRes protected abstract fun getLayoutId(): Int
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mActivity = activity as BaseActivity<*, *>
-    }
-
-    open fun refresh(): Boolean {
-        return false
-    }
+    open fun refresh(): Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        mRootView = viewDataBinding.root
+        prepareDataBindingLayout(inflater, container)
         return mRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareDataBindingVariables()
+    }
+
+    private fun prepareDataBindingLayout(inflater: LayoutInflater, container: ViewGroup?) {
+        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+        mRootView = viewDataBinding.root
+    }
+
+    private fun prepareDataBindingVariables() {
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }
 
     override fun onError(throwable: Throwable) {
+
     }
 
     inline fun <reified T : BaseActivity<*, *>> getParent(): T? = activity as? T
@@ -58,15 +58,9 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fra
     override fun showToast(message: String) = toast(message)
     override fun onStartLoading() = getParent<BaseActivity<*, *>>()?.onStartLoading()
     override fun onFinishLoading() = getParent<BaseActivity<*, *>>()?.onFinishLoading()
-
-    override fun showErrorDialog(resMsg: Int, resTitle: Int) = getBase()?.showErrorDialog(resMsg, resTitle)
-            ?: Unit
-
-    override fun showErrorDialog(msg: String?, title: String?) = getBase()?.showErrorDialog(msg, title)
-            ?: Unit
-
-    override fun showErrorDialog(msg: String?, title: String?, listener: (View) -> Unit) = getBase()?.showErrorDialog(msg, title, listener)
-            ?: Unit
+    override fun showErrorDialog(resMsg: Int, resTitle: Int) = getBase()?.showErrorDialog(resMsg, resTitle) ?: Unit
+    override fun showErrorDialog(msg: String?, title: String?) = getBase()?.showErrorDialog(msg, title) ?: Unit
+    override fun showErrorDialog(msg: String?, title: String?, listener: (View) -> Unit) = getBase()?.showErrorDialog(msg, title, listener) ?: Unit
 
     @JvmOverloads
     fun addViewTransitions(context: Context? = getContext(), enter: Int, exit: Int = enter, duration: Long) {
