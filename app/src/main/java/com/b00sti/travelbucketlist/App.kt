@@ -22,7 +22,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        FacebookSdk.sdkInitialize(getApplicationContext())
+        FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

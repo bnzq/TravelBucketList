@@ -15,7 +15,8 @@ interface BaseNavigator : EmptyNavigator {
 
     fun showToast(@StringRes resMsg: Int)
     fun showToast(message: String)
-    fun onLoading(loading: Boolean): Unit?
+    fun onStartLoading(): Unit?
+    fun onFinishLoading(): Unit?
     fun showErrorDialog(@StringRes resMsg: Int, @StringRes resTitle: Int = R.string.default_error)
     fun showErrorDialog(msg: String?, title: String? = null)
     fun showErrorDialog(msg: String?, title: String? = null, listener: (View) -> Unit = ScreenRouter.EMPTY_METHOD)

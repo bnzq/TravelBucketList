@@ -51,11 +51,14 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fra
 
     override fun onError(throwable: Throwable) {
     }
+
     inline fun <reified T : BaseActivity<*, *>> getParent(): T? = activity as? T
     fun getBase(): BaseActivity<*, *>? = activity as BaseActivity<*, *>
     override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))
     override fun showToast(message: String) = toast(message)
-    override fun onLoading(loading: Boolean) = getParent<BaseActivity<*, *>>()?.onLoading(loading)
+    override fun onStartLoading() = getParent<BaseActivity<*, *>>()?.onStartLoading()
+    override fun onFinishLoading() = getParent<BaseActivity<*, *>>()?.onFinishLoading()
+
     override fun showErrorDialog(resMsg: Int, resTitle: Int) = getBase()?.showErrorDialog(resMsg, resTitle)
             ?: Unit
 

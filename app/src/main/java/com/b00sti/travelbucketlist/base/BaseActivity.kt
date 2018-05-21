@@ -3,6 +3,7 @@ package com.b00sti.travelbucketlist.base
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.transition.TransitionInflater
@@ -15,6 +16,7 @@ import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.utils.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
+
 
 /**
  * Created by b00sti on 08.02.2018
@@ -30,15 +32,23 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
     @LayoutRes
     protected abstract fun getLayoutId(): Int
 
-    companion object {
-        const val DOUBLE_TAP_TIMEOUT = 2000L
+
+    private var doubleBackToExitPressedOnce = false
+    private val doubleTapToBackActivated: Boolean by lazy {
+        intent?.getBooleanExtra(EXTRA_DOUBLE_TAP_MODE, false) ?: false
     }
 
+    companion object {
+        const val DOUBLE_TAP_TIMEOUT = 2000L
+        const val EXTRA_DOUBLE_TAP_MODE = "extra_double_tap_to_exit_activated"
+    }
+
+    //region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         performDataBinding()
-        rxPermission = RxPermissions(this)
+        initUtils()
     }
 
     override fun onStop() {
@@ -46,15 +56,27 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         pb?.dismissAllowingStateLoss()
     }
 
+    override fun onBackPressed() {
+        if (doubleTapToBackActivated) handleDoubleTapToExit()
+    }
+    //endregion
+
     private fun performDataBinding() {
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }
 
+    private fun initUtils() {
+        rxPermission = RxPermissions(this)
+    }
+
     override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))
     override fun showToast(message: String) = toast(message)
-    override fun onLoading(loading: Boolean) {
+    override fun onStartLoading() = onLoading(true)
+    override fun onFinishLoading() = onLoading(false)
+
+    private fun onLoading(loading: Boolean) {
         return when {
             loading ->
                 if (pb == null) {
@@ -140,4 +162,13 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         return rxPermission.request(*perms)
     }
 
+    private fun handleDoubleTapToExit() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+        this.doubleBackToExitPressedOnce = true
+        toast("Please click BACK again to exit")
+        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, DOUBLE_TAP_TIMEOUT)
+    }
 }
