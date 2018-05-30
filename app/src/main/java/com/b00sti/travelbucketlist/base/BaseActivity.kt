@@ -23,7 +23,7 @@ import io.reactivex.Observable
  */
 abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : AppCompatActivity(), BaseNavigator {
 
-    private val viewModel: V by lazy { getViewModels() }
+    val viewModel: V by lazy { getViewModels() }
     private lateinit var viewDataBinding: T
     private lateinit var rxPermission: RxPermissions
     private var pb: DialogFragment? = null

@@ -49,7 +49,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     }
 
     override fun openRegisterFragment() {
-        onLoading(true)
+        onStartLoading()
+        //onLoading(true)
         //makeRegisterSharedViews()
 /*        if (views.contains(null)) return
         val register = RegisterFragment.getInstance()

@@ -50,7 +50,7 @@ class RegisterViewModel : BaseViewModel<RegisterNavigator>() {
 
             getDisposables().add(RxFirebaseAuth.registerAndGetToken(email.getOrEmpty(), password.getOrEmpty(), name.getOrEmpty())
                     .compose(RxUtils.applyObservableSchedulers())
-                    .doOnSubscribe { getNavigator().onLoading(true) }
+                    .doOnSubscribe { getNavigator().onStartLoading() }
                     .subscribeBy(
                             onNext = {
                                 Timber.d("register next")

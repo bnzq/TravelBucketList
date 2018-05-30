@@ -20,7 +20,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
     fun handleFacebookResult(result: LoginResult) {
         getDisposables().add(RxFirebaseAuth.loginFacebook(result.accessToken)
                 .compose(RxUtils.applyObservableSchedulers())
-                .doOnSubscribe { getNavigator().onLoading(true) }
+                .doOnSubscribe { getNavigator().onStartLoading() }
                 .subscribeBy(
                         onNext = {
                             getNavigator().openMainActivity()

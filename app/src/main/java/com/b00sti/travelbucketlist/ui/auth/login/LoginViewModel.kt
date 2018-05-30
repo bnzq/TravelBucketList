@@ -40,8 +40,8 @@ class LoginViewModel : BaseViewModel<LoginNavigator>() {
             getDisposables()
                     .add(RxFirebaseAuth.loginCredentials(email.getOrEmpty(), password.getOrEmpty())
                             .compose(RxUtils.applyObservableSchedulers())
-                            .doOnSubscribe { getNavigator().onLoading(true) }
-                            .doAfterTerminate { getNavigator().onLoading(false) }
+                            .doOnSubscribe { getNavigator().onStartLoading() }
+                            .doAfterTerminate { getNavigator().onFinishLoading() }
                             .subscribeBy(
                                     onNext = { getNavigator().openMainActivity() },
                                     onError = { getNavigator().showToast(it.localizedMessage) })

@@ -56,8 +56,8 @@ abstract class BaseViewModel<N : EmptyNavigator> : ViewModel() {
     fun <T : Any> fetchWithPb(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getBaseNavigator().onError(it) }, onComplete: () -> Unit = {}) {
         initDisposables()
         mCompositeDisposable.add(observable
-                .doOnSubscribe({ getBaseNavigator().onLoading(true) })
-                .doOnTerminate({ getBaseNavigator().onLoading(false) })
+                .doOnSubscribe({ getBaseNavigator().onStartLoading() })
+                .doOnTerminate({ getBaseNavigator().onFinishLoading() })
                 .subscribeBy(
                         onNext = { onSuccess.invoke(it) },
                         onError = { onError.invoke(it) },
