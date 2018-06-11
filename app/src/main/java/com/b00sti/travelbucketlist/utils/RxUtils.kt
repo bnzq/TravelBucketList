@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by b00sti on 13.12.2017
  */
 object RxUtils {
+
     fun <T> applySchedulers(): SingleTransformer<T, T> {
         return SingleTransformer { upstream ->
             upstream.subscribeOn(io())

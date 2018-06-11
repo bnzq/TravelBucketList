@@ -13,6 +13,7 @@ import com.b00sti.travelbucketlist.R
  * Created by b00sti on 07.02.2018
  */
 object ResUtils {
+
     fun getAccentColor(): Int = ResUtils.getColor(R.color.colorAccent)
     fun getPrimaryColor(): Int = ResUtils.getColor(R.color.colorPrimary)
     fun getPrimaryDarkColor(): Int = ResUtils.getColor(R.color.colorPrimaryDark)
@@ -21,4 +22,5 @@ object ResUtils {
     fun getString(@StringRes id: Int): String = App.appCtx().getString(id)
     fun getDrawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(App.appCtx(), id)
     fun getStringArray(@ArrayRes id: Int): Array<String> = App.appCtx().resources.getStringArray(id)
+
 }

@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit
  * Created by b00sti on 07.02.2018
  */
 class RxSearch {
+
     private val subject = BehaviorSubject.create<String>()
     private var disposable: Disposable? = null
 
@@ -53,4 +54,5 @@ class RxSearch {
             }
         })
     }
+
 }

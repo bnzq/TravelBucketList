@@ -15,6 +15,7 @@ import kotlin.reflect.KClass
  * Created by b00sti on 13.12.2017
  */
 object ScreenRouter {
+
     val EMPTY_METHOD: (View) -> Unit = {}
 
     fun showSimpleErrorDialog(

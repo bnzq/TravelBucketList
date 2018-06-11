@@ -1,9 +1,15 @@
 package com.b00sti.travelbucketlist.api
 
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 /**
  * Created by b00sti on 08.02.2018
  */
 object RxFirebaseDatabase {
+    private lateinit var database: FirebaseDatabase
+    private lateinit var databaseMain: DatabaseReference
+    private lateinit var databaseCountries: DatabaseReference
 
 /*    fun <T> call(observable: Observable<Response<T>>,
                  onSuccess: (T?) -> Unit,

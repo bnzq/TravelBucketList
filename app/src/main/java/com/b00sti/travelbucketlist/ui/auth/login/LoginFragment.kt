@@ -1,7 +1,7 @@
 package com.b00sti.travelbucketlist.ui.auth.login
 
 import android.arch.lifecycle.ViewModelProviders
-import android.os.Bundle
+import android.support.transition.TransitionInflater
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
 import com.b00sti.travelbucketlist.R
@@ -31,11 +31,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_login
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //addViewTransitions(enter = android.R.transition.fade, duration = 400L)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.setNavigator(this)
@@ -49,21 +44,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     }
 
     override fun openRegisterFragment() {
-        onStartLoading()
-        //onLoading(true)
-        //makeRegisterSharedViews()
-/*        if (views.contains(null)) return
+        makeRegisterSharedViews()
+        //if (views.contains(null)) return
         val register = RegisterFragment.getInstance()
-*//*        register.sharedElementEnterTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
-        register.sharedElementReturnTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)*//*
-        getBase()?.pushFragments(register, R.id.flAuthContainer, shouldAnimate = false)*/
+        register.sharedElementEnterTransition = TransitionInflater.from(getBase()).inflateTransition(android.R.transition.move)
+        register.sharedElementReturnTransition = TransitionInflater.from(getBase()).inflateTransition(android.R.transition.move)
+        getBase()?.pushFragments(register, R.id.flAuthContainer, shouldAnimate = false, transition = true, view = views)
     }
 
-    override fun openForgotFragment() {
-        //makeForgotSharedViews()
+    override fun openForgotFragment() {/*
+        makeForgotSharedViews()
         if (views.contains(null)) return
-        //val forgot = ForgotFragment.getInstance()
-/*        forgot.addViewTransitions(context = getBaseActivity(), enter = android.R.transition.fade, duration = 300L)
+        val forgot = ForgotFragment.getInstance()
+        forgot.addViewTransitions(context = getBaseActivity(), enter = android.R.transition.fade, duration = 300L)
         forgot.sharedElementEnterTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
         forgot.sharedElementReturnTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
         getBaseActivity().pushFragments(forgot, R.id.flAuthContainer, transition = true, shouldAnimate = false, view = views)*/

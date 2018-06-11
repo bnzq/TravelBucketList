@@ -125,14 +125,14 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         val manager = supportFragmentManager
 
         val ft = manager.beginTransaction()
-        var fragmentPopped = false
+/*        var fragmentPopped = false
         try {
             fragmentPopped = manager.popBackStackImmediate(fragment::class.java.name, 0)
         } catch (ex: IllegalStateException) {
             ex.printStackTrace()
-        }
+        }*/
 
-        if (!fragmentPopped) {
+  //      if (!fragmentPopped) {
             if (shouldAnimate) ft.setCustomAnimations(if (!first) R.anim.slide_in_right else 0,
                     R.anim.slide_out_left,
                     R.anim.slide_in_left,
@@ -147,7 +147,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
                     v?.let { it.transitionName?.let { ft.addSharedElement(v, it) } }
                 }
             }
-        }
+    //    }
         ft.replace(content, fragment, fragment::class.java.name)
 
         try {

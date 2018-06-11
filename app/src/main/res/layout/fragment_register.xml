@@ -33,6 +33,7 @@
                 android:layout_marginTop="48dp"
                 android:background="@drawable/background_input"
                 android:elevation="8dp"
+                android:transitionName="mLogo"
                 android:padding="2dp"
                 android:src="@drawable/logo"
                 app:layout_constraintBottom_toTopOf="@id/vgCredentials"
