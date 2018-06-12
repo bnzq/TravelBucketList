@@ -1,7 +1,6 @@
 package com.b00sti.travelbucketlist.ui.auth.login
 
 import android.arch.lifecycle.ViewModelProviders
-import android.support.transition.TransitionInflater
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
 import com.b00sti.travelbucketlist.R
@@ -12,19 +11,15 @@ import com.b00sti.travelbucketlist.ui.auth.register.RegisterFragment
 import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.finish
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_register.*
+
 
 /**
  * Created by b00sti on 15.02.2018
  */
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), LoginNavigator {
 
-    private val views = ArrayList<View?>()
-
     companion object {
-        fun getInstance(): LoginFragment {
-            return LoginFragment()
-        }
+        fun getInstance(): LoginFragment = LoginFragment()
     }
 
     override fun getViewModels(): LoginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
@@ -44,41 +39,36 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     }
 
     override fun openRegisterFragment() {
-        makeRegisterSharedViews()
-        //if (views.contains(null)) return
-        val register = RegisterFragment.getInstance()
-        register.sharedElementEnterTransition = TransitionInflater.from(getBase()).inflateTransition(android.R.transition.move)
-        register.sharedElementReturnTransition = TransitionInflater.from(getBase()).inflateTransition(android.R.transition.move)
-        getBase()?.pushFragments(register, R.id.flAuthContainer, shouldAnimate = false, transition = true, view = views)
+        var fragment = getBase()?.supportFragmentManager?.findFragmentByTag(RegisterFragment::class.java.name)
+        var isFragmentAdded = true
+        if (fragment == null) {
+            isFragmentAdded = false
+            fragment = RegisterFragment.getInstance()
+        }
+        getBase()?.pushFragments(
+                fragment,
+                R.id.flAuthContainer,
+                backStack = !isFragmentAdded,
+                shouldAnimate = false,
+                transition = true,
+                view = getSharedViews())
+
     }
 
-    override fun openForgotFragment() {/*
-        makeForgotSharedViews()
-        if (views.contains(null)) return
-        val forgot = ForgotFragment.getInstance()
-        forgot.addViewTransitions(context = getBaseActivity(), enter = android.R.transition.fade, duration = 300L)
-        forgot.sharedElementEnterTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
-        forgot.sharedElementReturnTransition = TransitionInflater.from(getBaseActivity()).inflateTransition(android.R.transition.move)
-        getBaseActivity().pushFragments(forgot, R.id.flAuthContainer, transition = true, shouldAnimate = false, view = views)*/
+    override fun openForgotFragment() {
+
     }
 
-    private fun makeRegisterSharedViews() {
-        views.clear()
-        views.add(tietEmailLogin)
-        views.add(tietPasswordLogin)
-        views.add(buttonTvLogin)
-        views.add(tvSocialInfoLogin)
-        views.add(buttonFacebookLogin)
-        views.add(buttonRegisterLogin)
-        views.add(tvRegisterInfoLogin)
-        views.add(ivAppLogoLogin)
-        views.add(vgCredentials)
+    private fun getSharedViews(): ArrayList<View?> {
+        val views = ArrayList<View?>()
         views.add(vBackgroundHeaderLogin)
+        views.add(ivAppLogoLogin)
+        views.add(vgCredentialsLogin)
+        views.add(tilEmailLogin)
+        views.add(tilPasswordLogin)
+        return views
     }
 
     private fun makeForgotSharedViews() {
-        views.clear()
-        views.add(tietEmailLogin)
-        views.add(buttonTvLogin)
     }
 }

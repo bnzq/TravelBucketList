@@ -1,234 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="vm"
             type="com.b00sti.travelbucketlist.ui.auth.register.RegisterViewModel"/>
-
     </data>
 
     <android.support.constraint.ConstraintLayout
+        style="@style/Match"
         android:background="@color/white"
-        style="@style/Match">
+        android:transitionGroup="false">
 
         <View
             android:id="@+id/vBackgroundHeaderRegister"
             android:layout_width="0dp"
-            android:layout_height="400dp"
+            android:layout_height="0dp"
             android:background="@drawable/gradient_accent"
-            android:transitionName="background_header"/>
+            android:transitionName="background_header"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/guideline"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/vgCredentials"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vgCredentials">
+        </View>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivAppLogoRegister"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/background_input"
+            android:elevation="8dp"
+            android:padding="2dp"
+            android:src="@drawable/logo"
+            android:transitionName="mLogo"
+            app:layout_constraintBottom_toTopOf="@id/vgCredentials"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="180dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_max="180dp"/>
 
         <android.support.constraint.ConstraintLayout
-            style="@style/Match">
+            android:id="@+id/vgCredentials"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
+            android:background="@drawable/background_input"
+            android:elevation="8dp"
+            android:padding="12dp"
+            android:transitionGroup="false"
+            android:transitionName="background_credentials"
+            app:layout_constraintBottom_toTopOf="@+id/tvSocialInfoRegister"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/ivAppLogoRegister"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="32dp"
-                android:layout_marginTop="48dp"
-                android:background="@drawable/background_input"
-                android:elevation="8dp"
-                android:transitionName="mLogo"
-                android:padding="2dp"
-                android:src="@drawable/logo"
-                app:layout_constraintBottom_toTopOf="@id/vgCredentials"
-                app:layout_constraintDimensionRatio="1:1"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilEmailRegister"
+                style="@style/Widget.TextInputLayout"
+                android:transitionName="til_email"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_max="180dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintWidth_max="180dp"/>
+                app:layout_constraintVertical_chainStyle="spread">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/vgCredentials"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="48dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginStart="36dp"
-                android:background="@drawable/background_input"
-                android:elevation="8dp"
-                android:padding="12dp"
-                android:transitionName="background_credentials"
-                app:layout_constraintBottom_toTopOf="@+id/tvSocialInfoRegister"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tietEmailRegister"
+                    style="@style/Widget.TextEdit"
+                    onFocusChange="@{vm.focusChange}"
+                    validation="@{vm.emailValid}"
+                    android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
+                    android:drawableStart="@drawable/ic_email_black_24dp"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:text="@={vm.email}"
+                    android:transitionName="email_input"/>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilEmailRegister"
-                    style="@style/Widget.TextInputLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread">
+            </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/tietEmailRegister"
-                        style="@style/Widget.TextEdit"
-                        onFocusChange="@{vm.focusChange}"
-                        validation="@{vm.emailValid}"
-                        android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
-                        android:drawableStart="@drawable/ic_email_black_24dp"
-                        android:hint="@string/email_address"
-                        android:inputType="textEmailAddress"
-                        android:text="@={vm.email}"
-                        android:transitionName="email_input"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilUserNameRegister"
-                    style="@style/Widget.TextInputLayout"
-                    android:layout_marginTop="2dp"
-                    app:layout_constraintBottom_toTopOf="@+id/tilPasswordRegister"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tilEmailRegister">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/tietUsernameRegister"
-                        style="@style/Widget.TextEdit"
-                        onFocusChange="@{vm.focusChange}"
-                        validation="@{vm.nameValid}"
-                        android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
-                        android:drawableStart="@drawable/ic_person_black_24dp"
-                        android:hint="Username"
-                        android:inputType="textPersonName"
-                        android:text="@={vm.name}"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilPasswordRegister"
-                    style="@style/Widget.TextInputLayout"
-                    android:layout_marginTop="2dp"
-                    app:layout_constraintBottom_toTopOf="@+id/tilPasswordConfirmRegister"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tilUserNameRegister">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/tietPasswordRegister"
-                        style="@style/Widget.TextEdit"
-                        onFocusChange="@{vm.focusChange}"
-                        validation="@{vm.passwordValid}"
-                        android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
-                        android:drawableStart="@drawable/ic_key_black_24dp"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        android:text="@={vm.password}"
-                        android:transitionName="password_input"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilPasswordConfirmRegister"
-                    style="@style/Widget.TextInputLayout"
-                    android:layout_marginTop="2dp"
-                    android:paddingBottom="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tilPasswordRegister">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/tietPasswordConfirmRegister"
-                        style="@style/Widget.TextEdit"
-                        onFocusChange="@{vm.focusChange}"
-                        validation="@{vm.passwordConfirmValid}"
-                        android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
-                        android:drawableStart="@drawable/ic_password_repeat_black_24dp"
-                        android:hint="Confirm password"
-                        android:inputType="textPassword"
-                        android:text="@={vm.passwordConfirm}"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/buttonTvRegister"
-                style="@style/Widget.FullWidthButton"
-                android:layout_marginEnd="54dp"
-                android:layout_marginStart="54dp"
-                android:layout_marginTop="12dp"
-                android:elevation="24dp"
-                android:onClick="@{() -> vm.onRegisterClick()}"
-                android:text="@string/register"
-                android:transitionName="button"
-                app:layout_constraintBottom_toBottomOf="@+id/vgCredentials"
-                app:layout_constraintTop_toBottomOf="@+id/vgCredentials"
-                app:layout_constraintVertical_bias="0.5"
-                app:layout_constraintVertical_chainStyle="packed"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvSocialInfoRegister"
-                style="@style/AppTextAppearance.Bold.Medium"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:text="@string/register_also_info"
-                android:transitionName="social_info"
-                app:layout_constraintBottom_toTopOf="@+id/buttonFacebookRegister"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilUserNameRegister"
+                style="@style/Widget.TextInputLayout"
+                android:layout_marginTop="2dp"
+                android:transitionName="til_username"
+                app:layout_constraintBottom_toTopOf="@+id/tilPasswordRegister"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                app:layout_constraintTop_toBottomOf="@+id/tilEmailRegister">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/buttonFacebookRegister"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:onClick="@{() -> vm.onFacebookClick()}"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/facebook"
-                android:transitionName="@string/auth_facebook_transition_name"
-                app:layout_constraintBottom_toTopOf="@+id/tvLoginInfoRegister"
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tietUsernameRegister"
+                    style="@style/Widget.TextEdit"
+                    onFocusChange="@{vm.focusChange}"
+                    validation="@{vm.nameValid}"
+                    android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
+                    android:drawableStart="@drawable/ic_person_black_24dp"
+                    android:hint="Username"
+                    android:inputType="textPersonName"
+                    android:text="@={vm.name}"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilPasswordRegister"
+                style="@style/Widget.TextInputLayout"
+                android:layout_marginTop="2dp"
+                android:transitionName="til_password"
+                app:layout_constraintBottom_toTopOf="@+id/tilPasswordConfirmRegister"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintWidth_max="160dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/tilUserNameRegister">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvLoginInfoRegister"
-                style="@style/AppTextAppearance.Bold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_transparent_ripple"
-                android:onClick="@{() -> vm.onLoginClick()}"
-                android:paddingTop="36dp"
-                android:text="@string/have_an_account"
-                android:transitionName="info"
-                app:layout_constraintBottom_toTopOf="@+id/buttonLoginRegister"
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tietPasswordRegister"
+                    style="@style/Widget.TextEdit"
+                    onFocusChange="@{vm.focusChange}"
+                    validation="@{vm.passwordValid}"
+                    android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
+                    android:drawableStart="@drawable/ic_key_black_24dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:text="@={vm.password}"
+                    android:transitionName="password_input"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilPasswordConfirmRegister"
+                style="@style/Widget.TextInputLayout"
+                android:layout_marginTop="2dp"
+                android:paddingBottom="32dp"
+                android:transitionName="forgot_confirm"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.5"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                app:layout_constraintTop_toBottomOf="@+id/tilPasswordRegister">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/buttonLoginRegister"
-                style="@style/AppTextAppearance.Bold.Heavy"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/btn_transparent_ripple"
-                android:onClick="@{() -> vm.onLoginClick()}"
-                android:padding="12dp"
-                android:text="@string/login"
-                android:transitionName="switch"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/tvLoginInfoRegister"
-                app:layout_constraintStart_toStartOf="@+id/tvLoginInfoRegister"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/tietPasswordConfirmRegister"
+                    style="@style/Widget.TextEdit"
+                    onFocusChange="@{vm.focusChange}"
+                    validation="@{vm.passwordConfirmValid}"
+                    android:afterTextChanged="@{()-> vm.afterChangeEmpty()}"
+                    android:drawableStart="@drawable/ic_password_repeat_black_24dp"
+                    android:hint="Confirm password"
+                    android:inputType="textPassword"
+                    android:text="@={vm.passwordConfirm}"/>
+
+            </android.support.design.widget.TextInputLayout>
 
         </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/buttonTvRegister"
+            style="@style/Widget.FullWidthButton"
+            android:layout_marginEnd="54dp"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="12dp"
+            android:elevation="24dp"
+            android:onClick="@{() -> vm.onRegisterClick()}"
+            android:text="@string/register"
+            android:transitionName="button"
+            app:layout_constraintBottom_toBottomOf="@+id/vgCredentials"
+            app:layout_constraintTop_toBottomOf="@+id/vgCredentials"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvSocialInfoRegister"
+            style="@style/AppTextAppearance.Bold.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="@string/register_also_info"
+            android:transitionName="social_info"
+            app:layout_constraintBottom_toTopOf="@+id/buttonFacebookRegister"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/buttonFacebookRegister"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:onClick="@{() -> vm.onFacebookClick()}"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/facebook"
+            android:transitionName="@string/auth_facebook_transition_name"
+            app:layout_constraintBottom_toTopOf="@+id/tvLoginInfoRegister"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_max="160dp"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvLoginInfoRegister"
+            style="@style/AppTextAppearance.Bold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_transparent_ripple"
+            android:onClick="@{() -> vm.onLoginClick()}"
+            android:paddingTop="36dp"
+            android:text="@string/have_an_account"
+            android:transitionName="info"
+            app:layout_constraintBottom_toTopOf="@+id/buttonLoginRegister"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/buttonLoginRegister"
+            style="@style/AppTextAppearance.Bold.Heavy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_transparent_ripple"
+            android:onClick="@{() -> vm.onLoginClick()}"
+            android:padding="12dp"
+            android:text="@string/login"
+            android:transitionName="switch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvLoginInfoRegister"
+            app:layout_constraintStart_toStartOf="@+id/tvLoginInfoRegister"
+            app:layout_constraintVertical_chainStyle="packed"/>
 
     </android.support.constraint.ConstraintLayout>
 

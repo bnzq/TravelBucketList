@@ -3,6 +3,8 @@ package com.b00sti.travelbucketlist.ui.auth
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Fade
+import android.view.Window
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseActivity
@@ -14,6 +16,9 @@ import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.SystemUtils
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
+import android.view.Window.FEATURE_CONTENT_TRANSITIONS
+
+
 
 /**
  * Created by b00sti on 13.02.2018

@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        coninue()
+        goNext()
         printKey()
     }
 
@@ -45,18 +45,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
         }
     }
 
-    fun coninue() {
+    private fun goNext() {
         viewModel.setNavigator(this)
-        /*Observable.just(1).delay(1, TimeUnit.SECONDS).subscribeBy {
-            finish()
-            ScreenRouter.goToAuthActivity(this) }*/
-        //viewModel.getUser()
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            openMainActivity()
-        } else {
-            openAuthActivity()
+        when {
+            isAuthorized() -> openMainActivity()
+            else           -> openAuthActivity()
         }
     }
+
+    private fun isAuthorized(): Boolean = FirebaseAuth.getInstance().currentUser != null
 
     override fun openMainActivity() {
         ScreenRouter.goToMainActivity(this)

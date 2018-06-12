@@ -35,7 +35,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
 
     private var doubleBackToExitPressedOnce = false
     private val doubleTapToBackActivated: Boolean by lazy {
-        intent?.getBooleanExtra(EXTRA_DOUBLE_TAP_MODE, false) ?: false
+        intent?.getBooleanExtra(EXTRA_DOUBLE_TAP_MODE, true) ?: false
     }
 
     companion object {
@@ -57,7 +57,10 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
     }
 
     override fun onBackPressed() {
-        if (doubleTapToBackActivated) handleDoubleTapToExit()
+        when {
+            doubleTapToBackActivated -> handleDoubleTapToExit()
+            else                     -> super.onBackPressed()
+        }
     }
     //endregion
 
@@ -84,7 +87,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
                 } else {
                     return
                 }
-            else -> hideProgressDialog(pb)
+            else    -> hideProgressDialog(pb)
         }
     }
 
@@ -123,31 +126,22 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
                       first: Boolean = false,
                       view: ArrayList<View?> = ArrayList()) {
         val manager = supportFragmentManager
-
         val ft = manager.beginTransaction()
-/*        var fragmentPopped = false
-        try {
-            fragmentPopped = manager.popBackStackImmediate(fragment::class.java.name, 0)
-        } catch (ex: IllegalStateException) {
-            ex.printStackTrace()
-        }*/
+        if (shouldAnimate) ft.setCustomAnimations(if (!first) R.anim.slide_in_right else 0,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right)
 
-  //      if (!fragmentPopped) {
-            if (shouldAnimate) ft.setCustomAnimations(if (!first) R.anim.slide_in_right else 0,
-                    R.anim.slide_out_left,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right)
+        if (backStack) ft.addToBackStack(fragment::class.java.name)
 
-            if (backStack) ft.addToBackStack(fragment::class.java.name)
-
-            if (transition) {
-                fragment.sharedElementEnterTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
-                fragment.sharedElementReturnTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
-                for (v in view) {
-                    v?.let { it.transitionName?.let { ft.addSharedElement(v, it) } }
-                }
+        if (transition) {
+            fragment.sharedElementEnterTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
+            fragment.sharedElementReturnTransition = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
+            for (v in view) {
+                v?.let { it.transitionName?.let { ft.addSharedElement(v, it) } }
             }
-    //    }
+        }
+
         ft.replace(content, fragment, fragment::class.java.name)
 
         try {
@@ -163,12 +157,20 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
     }
 
     private fun handleDoubleTapToExit() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed()
-            return
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+            this.doubleBackToExitPressedOnce = true
+            toast("Please click BACK again to exit")
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, DOUBLE_TAP_TIMEOUT)
+        } else {
+            try {
+                super.onBackPressed()
+            } catch (t : IllegalStateException) {
+
+            }
         }
-        this.doubleBackToExitPressedOnce = true
-        toast("Please click BACK again to exit")
-        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, DOUBLE_TAP_TIMEOUT)
     }
 }
