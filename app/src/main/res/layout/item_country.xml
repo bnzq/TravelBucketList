@@ -15,7 +15,7 @@
 
     <android.support.constraint.ConstraintLayout
         style="@style/MatchWidth"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         android:onClick="@{()->vm.onItemClicked()}">
 
         <android.support.v7.widget.AppCompatTextView
@@ -52,10 +52,11 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivCountryImage"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="64dp"
+            android:layout_height="48dp"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{vm.countryItem.photoUri}"
             android:onClick="@{()->vm.onDeleteClicked()}"
-            android:src="@drawable/ic_clear_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

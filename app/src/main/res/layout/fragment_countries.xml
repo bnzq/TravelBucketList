@@ -34,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center"
-            android:padding="24dp"
             android:textAllCaps="true"
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/btnAddCounty"

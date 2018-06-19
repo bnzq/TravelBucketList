@@ -2,6 +2,7 @@ package com.b00sti.travelbucketlist.api
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Logger
 
 /**
  * Created by b00sti on 08.02.2018
@@ -10,6 +11,16 @@ object RxFirebaseDatabase {
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseMain: DatabaseReference
     private lateinit var databaseCountries: DatabaseReference
+
+    private const val MAIN = "main"
+
+    fun setUpDatabase() {
+        database = FirebaseDatabase.getInstance()
+        database.setPersistenceEnabled(true)
+        database.setLogLevel(Logger.Level.DEBUG)
+        databaseMain = database.reference.child(MAIN)
+        databaseMain.keepSynced(true)
+    }
 
 /*    fun <T> call(observable: Observable<Response<T>>,
                  onSuccess: (T?) -> Unit,

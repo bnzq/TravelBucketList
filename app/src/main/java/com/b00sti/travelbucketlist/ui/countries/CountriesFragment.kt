@@ -7,12 +7,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
+import com.b00sti.travelbucketlist.api.NetworkManager
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.databinding.FragmentCountriesBinding
+import com.b00sti.travelbucketlist.utils.RxUtils
+import com.b00sti.travelbucketlist.utils.adapter.CONTINENTS
 import com.b00sti.travelbucketlist.utils.adapter.CountryAdapter
 import com.b00sti.travelbucketlist.utils.adapter.CountryItem
 import com.b00sti.travelbucketlist.utils.adapter.CountryNavigator
 import com.b00sti.travelbucketlist.utils.toast
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_countries.*
 
 /**
@@ -51,6 +55,11 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.setNavigator(this)
         initUI()
+        NetworkManager.getCountriesFromApi().compose(RxUtils.applyObservableSchedulers()).subscribeBy(onNext = {
+            var list: MutableList<CountryItem> = mutableListOf()
+            it.mapTo(list, transform = { CountryItem(it.name, CONTINENTS.EUROPE, false, it.alpha2Code) })
+            adapter.submitList(list)
+        })
     }
 
     private fun initUI() {
