@@ -29,8 +29,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
     private var pb: DialogFragment? = null
     protected abstract fun getViewModels(): V
     protected abstract fun getBindingVariable(): Int
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
+    @LayoutRes protected abstract fun getLayoutId(): Int
 
 
     private var doubleBackToExitPressedOnce = false
@@ -168,7 +167,7 @@ abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : App
         } else {
             try {
                 super.onBackPressed()
-            } catch (t : IllegalStateException) {
+            } catch (t: IllegalStateException) {
 
             }
         }
