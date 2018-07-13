@@ -22,7 +22,8 @@ class CountriesVM : BaseViewModel<CountriesNavigator>() {
     }
 
     fun refresh() {
-        fetchWithPb(getCountries(), { countriesList.postValue(it) })
+        getNavigator().onRefreshCompleted()
+        //fetchWithPb(getCountries(), { countriesList.postValue(it) })
     }
 
     fun getCountries(): Observable<List<CountryItem>> {

@@ -46,7 +46,7 @@ object ScreenRouter {
         })
     }
 
-    private fun startWithoutParams(activity: Activity?, clazz: KClass<*>) {
+    fun startWithoutParams(activity: Activity?, clazz: KClass<*>) {
         checkConditions(activity) {
             runSimpleActivity(activity, clazz)
         }

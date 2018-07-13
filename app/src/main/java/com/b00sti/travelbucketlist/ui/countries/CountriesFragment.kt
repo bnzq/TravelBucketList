@@ -9,8 +9,10 @@ import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.api.NetworkManager
 import com.b00sti.travelbucketlist.base.BaseFragment
+import com.b00sti.travelbucketlist.base.SingleActivity
 import com.b00sti.travelbucketlist.databinding.FragmentCountriesBinding
 import com.b00sti.travelbucketlist.utils.RxUtils
+import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.adapter.CONTINENTS
 import com.b00sti.travelbucketlist.utils.adapter.CountryAdapter
 import com.b00sti.travelbucketlist.utils.adapter.CountryItem
@@ -69,6 +71,6 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
     }
 
     override fun onRefreshCompleted() {
-
+        ScreenRouter.startWithoutParams(getBase(), SingleActivity::class)
     }
 }

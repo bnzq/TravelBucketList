@@ -59,6 +59,7 @@
         <activity
             android:screenOrientation="portrait"
             android:name="com.b00sti.travelbucketlist.ui.auth.AuthActivity"/>
+        <activity android:name=".base.SingleActivity"/>
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
