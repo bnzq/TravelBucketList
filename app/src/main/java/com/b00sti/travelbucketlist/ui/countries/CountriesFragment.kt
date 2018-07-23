@@ -8,6 +8,7 @@ import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.api.NetworkManager
+import com.b00sti.travelbucketlist.api.RxFirebaseDatabase
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.base.SingleActivity
 import com.b00sti.travelbucketlist.databinding.FragmentCountriesBinding
@@ -57,10 +58,24 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.setNavigator(this)
         initUI()
-        NetworkManager.getCountriesFromApi().compose(RxUtils.applyObservableSchedulers()).subscribeBy(onNext = {
-            var list: MutableList<CountryItem> = mutableListOf()
-            it.mapTo(list, transform = { CountryItem(it.name, CONTINENTS.EUROPE, false, it.alpha2Code) })
-            adapter.submitList(list)
+        var bucketList = RxFirebaseDatabase.BucketList("All countries", false, "userID")
+        RxFirebaseDatabase.addNewBucketList(bucketList).subscribe({
+            NetworkManager.getCountriesFromApi().compose(RxUtils.applyObservableSchedulers()).subscribeBy(onNext = {
+                var list: MutableList<CountryItem> = mutableListOf()
+                it.mapTo(list, transform = { CountryItem(it.name, CONTINENTS.EUROPE, false, it.alpha2Code) })
+                list.forEach {
+                    var bucketItem = RxFirebaseDatabase.BucketItem(it.name,
+                            "https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/" + it.photoUri.toLowerCase() + ".png",
+                            it.continent.ordinal,
+                            "")
+                    RxFirebaseDatabase.addNewItem(bucketItem).subscribe({
+                        //RxFirebaseDatabase.assignToBucketList(bucketItem, bucketList).subscribe({})
+                    })
+                }
+
+
+                adapter.submitList(list)
+            })
         })
     }
 

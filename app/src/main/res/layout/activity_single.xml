@@ -11,7 +11,9 @@
         <import type="android.view.View"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout style="@style/Match">
+    <android.support.constraint.ConstraintLayout
+        style="@style/Match"
+        android:fitsSystemWindows="false">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/vgMainAppBar"
@@ -77,6 +79,7 @@
             android:id="@+id/vgFragmentPlaceholder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:fitsSystemWindows="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

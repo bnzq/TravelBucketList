@@ -16,17 +16,22 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/appbar_layout_activity"
         android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        app:statusBarBackground="@android:color/transparent"
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
+            android:theme="@style/Translucent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
+                android:fitsSystemWindows="true"
                 android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:title="@string/app_name">
 
@@ -34,6 +39,7 @@
                     android:id="@+id/page_nme"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    android:fitsSystemWindows="true"
                     android:height="250dp"
                     android:background="@drawable/icon"
                     android:src="@drawable/icon"
@@ -71,8 +77,8 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnCopyFab"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_marginEnd="32dp"
             android:src="@drawable/ic_copy_white_24dp"
             app:layout_anchor="@id/appbar"
