@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
+import com.b00sti.travelbucketlist.api.RxFirebaseDatabase
 import com.b00sti.travelbucketlist.base.AdapterNavigator
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.databinding.FragmentBucketsBinding

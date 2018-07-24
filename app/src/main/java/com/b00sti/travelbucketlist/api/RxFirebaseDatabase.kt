@@ -1,10 +1,11 @@
 package com.b00sti.travelbucketlist.api
 
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Logger
+import com.google.firebase.database.*
 import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by b00sti on 08.02.2018
@@ -33,7 +34,7 @@ object RxFirebaseDatabase {
     }
 
     data class BucketList(val name: String, val isPublic: Boolean, val userId: String)
-    data class BucketItem(val name: String, val photoUrl: String, val type: Int, val desc: String)
+    data class BucketItem(val name: String = "", val photoUrl: String = "", val type: Int = 1, val desc: String = "")
 
     fun addNewBucketList(bucketList: BucketList): Completable = Completable.create({ emitter ->
         val map = WeakHashMap<String, Any>()
@@ -61,6 +62,67 @@ object RxFirebaseDatabase {
             else task.exception?.let { emitter.onError(it) }
         })
     })
+
+    fun getBucketList(bucketList: BucketList): Single<ArrayList<BucketItem>> = Single.create { emitter ->
+        databaseAllLists.child("621895611").child("all_items").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError?) {
+                if (error != null) emitter.onError(error.toException())
+                else emitter.onError(NullPointerException("Canceled with null value!"))
+            }
+
+            override fun onDataChange(data: DataSnapshot?) {
+                val items = ArrayList<BucketItem>()
+                when {
+                    data == null || data.childrenCount == 0L -> emitter.onSuccess(items)
+                    else                                     -> {
+
+                        val obsList: MutableList<Single<BucketItem>> = mutableListOf()
+                        for (entry in data.children) {
+                            obsList.add(getBucketItem(entry.key))
+                        }
+                        Single.zip<BucketItem, ArrayList<BucketItem>>(obsList, { t: Array<out Any> ->
+                            val list = arrayListOf<BucketItem>()
+                            t.forEach { any -> list.add(any as BucketItem) }
+                            list
+                        })
+                                .subscribeBy { t -> emitter.onSuccess(t) }
+                    }
+                }
+            }
+        })
+    }
+
+    fun getBucketItem(key: String): Single<BucketItem> = Single.create { emitter ->
+        databasePublicItems
+                .child("all_items")
+                .child(key)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError?) {
+                        if (error != null) emitter.onError(error.toException())
+                        else emitter.onError(NullPointerException("Canceled with null value!"))
+                    }
+
+                    override fun onDataChange(data: DataSnapshot?) {
+                        val item: BucketItem = BucketItem("", "", 1, "")
+                        when {
+                            data == null -> emitter.onSuccess(item)
+                            else         -> {
+                                /*for (entry in data.children) {
+                                    try {
+                                        // entry.key
+                                        // entry.getValue(BucketItem::class.java)?.let { items.add(it) }
+                                    } catch (e: DatabaseException) {
+                                        e.printStackTrace()
+                                    }
+                                }*/
+                                data.getValue(BucketItem::class.java)?.let {
+                                    emitter.onSuccess(it)
+                                }
+                            }
+                        }
+                    }
+                })
+    }
 
 /*    fun <T> call(observable: Observable<Response<T>>,
                  onSuccess: (T?) -> Unit,

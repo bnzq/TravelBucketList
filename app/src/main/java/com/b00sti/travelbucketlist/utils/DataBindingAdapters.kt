@@ -24,9 +24,9 @@ object DataBindingAdapters {
     fun setImageUrl(imageView: AppCompatImageView, url: String) {
         val options = RequestOptions()
         options.fitCenter()
-        val urlFinal = "https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/" + url.toLowerCase() + ".png"
+        //val urlFinal = "https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/" + url.toLowerCase() + ".png"
         Glide.with(imageView.context)
-                .load(urlFinal)
+                .load(url)
                 .transition(withCrossFade())
                 .apply(RequestOptions.centerCropTransform())
                 //.placeholder(R.drawable.ic_email_black_24dp)

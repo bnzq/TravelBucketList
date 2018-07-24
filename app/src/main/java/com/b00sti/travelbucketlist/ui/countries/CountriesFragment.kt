@@ -7,12 +7,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
-import com.b00sti.travelbucketlist.api.NetworkManager
 import com.b00sti.travelbucketlist.api.RxFirebaseDatabase
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.base.SingleActivity
 import com.b00sti.travelbucketlist.databinding.FragmentCountriesBinding
-import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.adapter.CONTINENTS
 import com.b00sti.travelbucketlist.utils.adapter.CountryAdapter
@@ -58,7 +56,13 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.setNavigator(this)
         initUI()
-        var bucketList = RxFirebaseDatabase.BucketList("All countries", false, "userID")
+        RxFirebaseDatabase.getBucketList(RxFirebaseDatabase.BucketList("", true, "")).subscribeBy { arrayList ->
+            val list: ArrayList<CountryItem> = arrayListOf()
+            arrayList.mapTo(list, transform = { CountryItem(it.name, CONTINENTS.EUROPE, false, it.photoUrl) })
+            adapter.submitList(list)
+        }
+
+/*        var bucketList = RxFirebaseDatabase.BucketList("All countries", false, "userID")
         RxFirebaseDatabase.addNewBucketList(bucketList).subscribe({
             NetworkManager.getCountriesFromApi().compose(RxUtils.applyObservableSchedulers()).subscribeBy(onNext = {
                 var list: MutableList<CountryItem> = mutableListOf()
@@ -69,14 +73,14 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
                             it.continent.ordinal,
                             "")
                     RxFirebaseDatabase.addNewItem(bucketItem).subscribe({
-                        //RxFirebaseDatabase.assignToBucketList(bucketItem, bucketList).subscribe({})
+                        RxFirebaseDatabase.assignToBucketList(bucketItem, bucketList).subscribe({})
                     })
                 }
 
 
                 adapter.submitList(list)
             })
-        })
+        })*/
     }
 
     private fun initUI() {
