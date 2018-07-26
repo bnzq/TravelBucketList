@@ -7,10 +7,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
-import com.b00sti.travelbucketlist.api.RxFirebaseDatabase
+import com.b00sti.travelbucketlist.api.Country
+import com.b00sti.travelbucketlist.api.NetworkManager
+import com.b00sti.travelbucketlist.api.RxFbAuth
+import com.b00sti.travelbucketlist.api.RxFbDatabase
 import com.b00sti.travelbucketlist.base.BaseFragment
 import com.b00sti.travelbucketlist.base.SingleActivity
 import com.b00sti.travelbucketlist.databinding.FragmentCountriesBinding
+import com.b00sti.travelbucketlist.model.Bucket
+import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.ScreenRouter
 import com.b00sti.travelbucketlist.utils.adapter.CONTINENTS
 import com.b00sti.travelbucketlist.utils.adapter.CountryAdapter
@@ -19,6 +24,8 @@ import com.b00sti.travelbucketlist.utils.adapter.CountryNavigator
 import com.b00sti.travelbucketlist.utils.toast
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_countries.*
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 /**
  * Created by b00sti on 12.03.2018
@@ -56,31 +63,80 @@ class CountriesFragment : BaseFragment<FragmentCountriesBinding, CountriesVM>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.setNavigator(this)
         initUI()
-        RxFirebaseDatabase.getBucketList(RxFirebaseDatabase.BucketList("", true, "")).subscribeBy { arrayList ->
-            val list: ArrayList<CountryItem> = arrayListOf()
-            arrayList.mapTo(list, transform = { CountryItem(it.name, CONTINENTS.EUROPE, false, it.photoUrl) })
-            adapter.submitList(list)
-        }
+        //addAllCountries()
+        getAllCountries()
 
-/*        var bucketList = RxFirebaseDatabase.BucketList("All countries", false, "userID")
-        RxFirebaseDatabase.addNewBucketList(bucketList).subscribe({
+    }
+
+    private fun getAllCountries() {
+        val list: MutableList<CountryItem> = mutableListOf()
+        RxFbDatabase.getBucketList(Bucket.BucketList("", true, "", "-LILHhlNfSTaO_sAPIyf")).subscribeBy { arrayList ->
+            val listNewItems: MutableList<CountryItem> = mutableListOf()
+            arrayList.mapTo(listNewItems, transform = {
+                CountryItem(it.name, CONTINENTS.values()[it.type], false, it.photoUrl, it.desc)
+            })
+            val updateList: MutableList<CountryItem> = mutableListOf()
+            updateList.addAll(list)
+            list.addAll(listNewItems)
+            updateList.addAll(listNewItems)
+            adapter.submitList(updateList)
+        }
+    }
+
+    private fun addAllCountries() {
+        var bucketList = Bucket.BucketList("All countries", true, RxFbAuth.getUserId(), "")
+        RxFbDatabase.addNewBucketList(bucketList).subscribe({
             NetworkManager.getCountriesFromApi().compose(RxUtils.applyObservableSchedulers()).subscribeBy(onNext = {
-                var list: MutableList<CountryItem> = mutableListOf()
-                it.mapTo(list, transform = { CountryItem(it.name, CONTINENTS.EUROPE, false, it.alpha2Code) })
-                list.forEach {
-                    var bucketItem = RxFirebaseDatabase.BucketItem(it.name,
-                            "https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/" + it.photoUri.toLowerCase() + ".png",
-                            it.continent.ordinal,
-                            "")
-                    RxFirebaseDatabase.addNewItem(bucketItem).subscribe({
-                        RxFirebaseDatabase.assignToBucketList(bucketItem, bucketList).subscribe({})
+                it.forEach {
+                    var bucketItem = Bucket.BucketToDo(
+                            it.name,
+                            "https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/" + it.alpha2Code.toLowerCase() + ".png",
+                            getCountryType(it),
+                            getCountryDesc(it))
+                    RxFbDatabase.addNewBucketToDo(bucketItem).subscribe({
+                        RxFbDatabase.assignToDoToBucketList(bucketItem, bucketList).subscribe({})
                     })
                 }
-
-
-                adapter.submitList(list)
             })
-        })*/
+        })
+    }
+
+    private fun getCountryType(country: Country): Int {
+        var result = 0
+        if (country.region.equals("Europe")) {
+            result = CONTINENTS.EUROPE.ordinal
+        } else if (country.region.equals("Africa")) {
+            result = CONTINENTS.AFRICA.ordinal
+        } else if (country.region.equals("Asia")) {
+            result = CONTINENTS.ASIA.ordinal
+        } else if (country.region.equals("Oceania")) {
+            result = CONTINENTS.OCEANIA.ordinal
+        } else if (country.region.equals("Americas")) {
+            result = if (country.subregion.equals("South America")) {
+                CONTINENTS.NORTH_AMERICA.ordinal
+            } else {
+                CONTINENTS.SOUTH_AMERICA.ordinal
+            }
+        }
+        return result
+    }
+
+    private fun getCountryDesc(country: Country): String {
+        var result = ""
+        val symbols = DecimalFormatSymbols()
+        symbols.groupingSeparator = ' '
+        val df = DecimalFormat("###,###,###,###", symbols)
+        result += "Codes: " + country.alpha2Code + " / " + country.alpha3Code
+        result += "\nRegion: " + country.subregion
+        result += "\nNative name: " + country.nativeName
+        result += "\nCapital: " + country.capital
+        result += "\nPopulation: " + df.format(country.population)
+        result += try {
+            "\nArea: " + df.format(country.area)
+        } catch (e: Exception) {
+            "\nArea: unknown"
+        }
+        return result
     }
 
     private fun initUI() {

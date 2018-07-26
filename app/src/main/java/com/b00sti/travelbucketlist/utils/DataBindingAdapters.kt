@@ -35,6 +35,7 @@ object DataBindingAdapters {
 
     }
 
+
     @JvmStatic
     @BindingAdapter("maxLimitLines")
     fun bindLimitLines(view: EditText, lines: Int) {

@@ -35,16 +35,15 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:title="@string/app_name">
 
-                <TextView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/page_nme"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:fitsSystemWindows="true"
                     android:height="250dp"
-                    android:background="@drawable/icon"
-                    android:src="@drawable/icon"
+                    app:imageUrl="@{vm.sampleImage}"
                     android:text="Title"
-                    app:layout_collapseMode="parallax"></TextView>
+                    app:layout_collapseMode="parallax"></android.support.v7.widget.AppCompatImageView>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/z_toolbar"

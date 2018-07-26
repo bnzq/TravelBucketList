@@ -1,6 +1,6 @@
 package com.b00sti.travelbucketlist.ui.auth
 
-import com.b00sti.travelbucketlist.api.RxFirebaseAuth
+import com.b00sti.travelbucketlist.api.RxFbAuth
 import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.facebook.login.LoginResult
@@ -18,7 +18,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
 
 
     fun handleFacebookResult(result: LoginResult) {
-        getDisposables().add(RxFirebaseAuth.loginFacebook(result.accessToken)
+        getDisposables().add(RxFbAuth.loginFacebook(result.accessToken)
                 .compose(RxUtils.applyObservableSchedulers())
                 .doOnSubscribe { getNavigator().onStartLoading() }
                 .subscribeBy(
@@ -37,7 +37,7 @@ class AuthViewModel : BaseViewModel<AuthNavigator>() {
 
 /*
     fun handleFacebookResult(result: LoginResult) {
-        getDisposables().add(RxFirebaseAuth.loginAndGetDataFromFacebook(result.accessToken)
+        getDisposables().add(RxFbAuth.loginAndGetDataFromFacebook(result.accessToken)
                 .compose(RxUtils.applyObservableSchedulers())
                 .doOnSubscribe { getNavigator().onLoading(true) }
                 .subscribeBy(

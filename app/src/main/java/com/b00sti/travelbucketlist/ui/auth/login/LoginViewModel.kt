@@ -4,7 +4,7 @@ import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.view.View
 import com.b00sti.travelbucketlist.R
-import com.b00sti.travelbucketlist.api.RxFirebaseAuth
+import com.b00sti.travelbucketlist.api.RxFbAuth
 import com.b00sti.travelbucketlist.base.BaseViewModel
 import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.RxUtils
@@ -38,7 +38,7 @@ class LoginViewModel : BaseViewModel<LoginNavigator>() {
     fun onLoginClick() {
         if (validateEmail(email, emailValid) && validatePassword(password, passwordValid)) {
             getDisposables()
-                    .add(RxFirebaseAuth.loginCredentials(email.getOrEmpty(), password.getOrEmpty())
+                    .add(RxFbAuth.loginCredentials(email.getOrEmpty(), password.getOrEmpty())
                             .compose(RxUtils.applyObservableSchedulers())
                             .doOnSubscribe { getNavigator().onStartLoading() }
                             .doAfterTerminate { getNavigator().onFinishLoading() }

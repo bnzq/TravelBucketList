@@ -21,11 +21,11 @@ enum class CONTINENTS {
     ASIA,
     EUROPE,
     NORTH_AMERICA,
-    AUSTRALIA,
+    OCEANIA,
     SOUTH_AMERICA
 }
 
-data class CountryItem(val name: String = "", val continent: CONTINENTS, val visited: Boolean, val photoUri: String)
+data class CountryItem(val name: String = "", val continent: CONTINENTS, val visited: Boolean, val photoUri: String, val desc: String)
 
 interface CountryNavigator : AdapterNavigator<CountryItem> {
     fun onDeleteClicked(countryItem: CountryItem)

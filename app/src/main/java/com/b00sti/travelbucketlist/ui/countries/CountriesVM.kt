@@ -28,9 +28,9 @@ class CountriesVM : BaseViewModel<CountriesNavigator>() {
 
     fun getCountries(): Observable<List<CountryItem>> {
         return Observable.create { emitter ->
-            val items = listOf(CountryItem("Poland" + System.currentTimeMillis(), CONTINENTS.EUROPE, true, ""),
-                    CountryItem("France" + System.currentTimeMillis(), CONTINENTS.EUROPE, false, ""),
-                    CountryItem("Spain" + System.currentTimeMillis(), CONTINENTS.EUROPE, true, ""))
+            val items = listOf(CountryItem("Poland" + System.currentTimeMillis(), CONTINENTS.EUROPE, true, "", ""),
+                    CountryItem("France" + System.currentTimeMillis(), CONTINENTS.EUROPE, false, "", ""),
+                    CountryItem("Spain" + System.currentTimeMillis(), CONTINENTS.EUROPE, true, "", ""))
             val list = countriesList.value?.toMutableList()
             list?.addAll(items)
             if (list != null) {

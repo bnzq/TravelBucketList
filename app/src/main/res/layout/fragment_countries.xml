@@ -18,17 +18,6 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnAddCounty"
-            android:onClick="@{() -> vm.refresh()}"
-            android:gravity="center"
-            android:text="Add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="55dp"
-            android:layout_height="55dp"/>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvCountries"
             android:layout_width="match_parent"
@@ -36,7 +25,7 @@
             android:gravity="center"
             android:textAllCaps="true"
             android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddCounty"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

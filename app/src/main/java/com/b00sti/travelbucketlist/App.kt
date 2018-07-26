@@ -2,7 +2,7 @@ package com.b00sti.travelbucketlist
 
 import android.app.Application
 import android.content.Context
-import com.b00sti.travelbucketlist.api.RxFirebaseDatabase
+import com.b00sti.travelbucketlist.api.RxFbDatabase
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import timber.log.Timber
@@ -25,7 +25,7 @@ class App : Application() {
         super.onCreate()
         FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(this)
-        RxFirebaseDatabase.setUpDatabase()
+        RxFbDatabase.setUpDatabase()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

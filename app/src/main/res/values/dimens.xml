@@ -11,10 +11,9 @@
     <dimen name="navigation_drawer_width">290dp</dimen>
     <dimen name="te_row_height">55dp</dimen>
 
+    <dimen name="match_constrain">0dp</dimen>
     <item name="match_parent" format="integer" type="dimen">-1</item>
     <item name="wrap_content" format="integer" type="dimen">-2</item>
-    <dimen name="match_constrain">0dp</dimen>
-
     <dimen name="auth_page_margin">24dp</dimen>
     <dimen name="folded_size">20sp</dimen>
     <dimen name="unfolded_size">40sp</dimen>
