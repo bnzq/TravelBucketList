@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.b00sti.travelbucketlist.base.AdapterViewModel&lt;com.b00sti.travelbucketlist.utils.adapter.BucketItem>"/>
+            type="com.b00sti.travelbucketlist.base.AdapterViewModel&lt;com.b00sti.travelbucketlist.model.Bucket.BucketToDo>"/>
 
     </data>
 

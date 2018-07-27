@@ -81,6 +81,30 @@ object RxFbDatabase {
         })
     }
 
+    fun getAllPublicBucketLists(): Observable<ArrayList<Bucket.BucketList>> = Observable.create { emitter ->
+        dbAllBucketLists.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError?) = handleDatabaseErrors(error, emitter)
+            override fun onDataChange(data: DataSnapshot?) {
+                when {
+                    isEmpty(data) -> emitter.onNext(arrayListOf())
+                    else          -> {
+                        val items = arrayListOf<Bucket.BucketList>()
+                        for (entry in data!!.children) {
+                            try {
+                                entry.getValue(Bucket.BucketList::class.java)?.let {
+                                    items.add(it)
+                                }
+                            } catch (e: DatabaseException) {
+                                e.printStackTrace()
+                            }
+                        }
+                        emitter.onNext(items)
+                    }
+                }
+            }
+        })
+    }
+
     private fun getBucketItem(key: String): Single<Bucket.BucketToDo> = Single.create { emitter ->
         dbAllToDos
                 .child(key)
@@ -130,7 +154,7 @@ object RxFbDatabase {
 
     private fun isEmpty(data: DataSnapshot?): Boolean = data == null || data.childrenCount == 0L
 
-    private fun handleDatabaseErrors(error: DatabaseError?, emitter: ObservableEmitter<ArrayList<Bucket.BucketToDo>>) {
+    private fun <T> handleDatabaseErrors(error: DatabaseError?, emitter: ObservableEmitter<ArrayList<T>>) {
         if (error != null) emitter.onError(error.toException())
         else emitter.onError(NullPointerException("Canceled with null value!"))
     }

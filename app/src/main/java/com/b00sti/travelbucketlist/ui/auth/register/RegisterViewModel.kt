@@ -5,7 +5,7 @@ import android.databinding.ObservableField
 import android.view.View
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.api.RxFbAuth
-import com.b00sti.travelbucketlist.base.BaseViewModel
+import com.b00sti.travelbucketlist.base.BaseVM
 import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.Validation
@@ -13,7 +13,7 @@ import com.b00sti.travelbucketlist.utils.getOrEmpty
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
-class RegisterViewModel : BaseViewModel<RegisterNavigator>() {
+class RegisterViewModel : BaseVM<RegisterNavigator>() {
 
     val name = ObservableField<String>("")
     val email = ObservableField<String>("")

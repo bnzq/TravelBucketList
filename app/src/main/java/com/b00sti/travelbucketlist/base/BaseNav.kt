@@ -11,7 +11,7 @@ import com.b00sti.travelbucketlist.utils.ScreenRouter
 
 interface EmptyNavigator
 
-interface BaseNavigator : EmptyNavigator {
+interface BaseNav : EmptyNavigator {
 
     fun showToast(@StringRes resMsg: Int)
     fun showToast(message: String)

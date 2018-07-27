@@ -3,8 +3,7 @@ package com.b00sti.travelbucketlist.utils
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.android.schedulers.AndroidSchedulers.*
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.BehaviorSubject

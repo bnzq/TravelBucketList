@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="vm"
+            type="com.b00sti.travelbucketlist.ui.public_bucket_list.BucketToDosAdapterVM"/>
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:padding="4dp">
+
+        <android.support.constraint.ConstraintLayout
+            style="@style/MatchWidth"
+            android:onClick="@{()->vm.onItemClicked()}">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvSearchPlaceName"
+                style="@style/AppTextAppearance.Dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:maxLines="1"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="@{vm.item.name}"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tvSearchPlaceDesc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivCountryImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Place"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvSearchPlaceDesc"
+                style="@style/AppTextAppearance.Dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:maxLines="2"
+                android:paddingBottom="4dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="@{vm.item.desc}"
+                android:textSize="11dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivCountryImage"
+                app:layout_constraintTop_toBottomOf="@+id/tvSearchPlaceName"
+                tools:text="Desc"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivCountryImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{vm.item.photoUrl}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="7:4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

@@ -5,7 +5,7 @@ import android.databinding.ObservableField
 import android.view.View
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.api.RxFbAuth
-import com.b00sti.travelbucketlist.base.BaseViewModel
+import com.b00sti.travelbucketlist.base.BaseVM
 import com.b00sti.travelbucketlist.utils.ResUtils
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.b00sti.travelbucketlist.utils.Validation.validateEmail
@@ -16,7 +16,7 @@ import io.reactivex.rxkotlin.subscribeBy
 /**
  * Created by b00sti on 15.02.2018
  */
-class LoginViewModel : BaseViewModel<LoginNavigator>() {
+class LoginViewModel : BaseVM<LoginNavigator>() {
     val email = ObservableField<String>("")
     val emailValid = ObservableBoolean(false)
     val password = ObservableField<String>("")

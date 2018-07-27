@@ -1,7 +1,7 @@
 package com.b00sti.travelbucketlist.ui.auth
 
 import com.b00sti.travelbucketlist.api.RxFbAuth
-import com.b00sti.travelbucketlist.base.BaseViewModel
+import com.b00sti.travelbucketlist.base.BaseVM
 import com.b00sti.travelbucketlist.utils.RxUtils
 import com.facebook.login.LoginResult
 import io.reactivex.rxkotlin.subscribeBy
@@ -10,7 +10,7 @@ import timber.log.Timber
 /**
  * Created by b00sti on 13.02.2018
  */
-class AuthViewModel : BaseViewModel<AuthNavigator>() {
+class AuthViewModel : BaseVM<AuthNavigator>() {
 
     fun onBackArrowClick() {
         getNavigator().onBackClick()

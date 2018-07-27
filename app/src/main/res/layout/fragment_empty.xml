@@ -14,9 +14,8 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        style="@style/Match"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tvEmptyMsg"
@@ -32,4 +31,5 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
+
 </layout>

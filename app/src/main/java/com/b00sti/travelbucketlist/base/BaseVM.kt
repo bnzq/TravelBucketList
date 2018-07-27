@@ -12,13 +12,13 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by b00sti on 08.02.2018
  */
-abstract class BaseViewModel<N : EmptyNavigator> : ViewModel() {
+abstract class BaseVM<N : EmptyNavigator> : ViewModel() {
     private lateinit var mNavigator: N
     private var mCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun getNavigator(): N = mNavigator
 
-    fun getBaseNavigator(): BaseNavigator = mNavigator as BaseNavigator
+    fun getBaseNavigator(): BaseNav = mNavigator as BaseNav
 
     fun setNavigator(navigator: N) {
         this.mNavigator = navigator

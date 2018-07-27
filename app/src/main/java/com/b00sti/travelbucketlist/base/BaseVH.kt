@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 /**
  * Created by b00sti on 08.02.2018
  */
-abstract class BaseViewHolder<out T : ViewDataBinding, V : BaseViewModel<*>>(private val viewDataBinding: T) : RecyclerView.ViewHolder(viewDataBinding.root) {
+abstract class BaseVH<out T : ViewDataBinding, V : BaseVM<*>>(private val viewDataBinding: T) : RecyclerView.ViewHolder(viewDataBinding.root) {
     lateinit var viewModel: V
     protected abstract fun getViewModel(position: Int): V
     protected abstract fun getBindingVariable(): Int

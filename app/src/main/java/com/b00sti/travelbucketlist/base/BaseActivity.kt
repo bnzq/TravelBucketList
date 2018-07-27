@@ -21,7 +21,7 @@ import io.reactivex.Observable
 /**
  * Created by b00sti on 08.02.2018
  */
-abstract class BaseActivity<T : ViewDataBinding, out V : BaseViewModel<*>> : AppCompatActivity(), BaseNavigator {
+abstract class BaseActivity<T : ViewDataBinding, out V : BaseVM<*>> : AppCompatActivity(), BaseNav {
 
     val viewModel: V by lazy { getViewModels() }
     private lateinit var viewDataBinding: T

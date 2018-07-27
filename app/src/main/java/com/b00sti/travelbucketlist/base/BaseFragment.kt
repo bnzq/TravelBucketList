@@ -16,7 +16,7 @@ import com.b00sti.travelbucketlist.utils.toast
 /**
  * Created by b00sti on 08.02.2018
  */
-abstract class BaseFragment<T : ViewDataBinding, out V : BaseViewModel<*>> : Fragment(), BaseNavigator {
+abstract class BaseFragment<T : ViewDataBinding, out V : BaseVM<*>> : Fragment(), BaseNav {
 
     private lateinit var viewDataBinding: T
     val viewModel: V by lazy { getViewModels() }

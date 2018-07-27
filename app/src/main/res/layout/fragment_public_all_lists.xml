@@ -9,38 +9,26 @@
 
         <variable
             name="vm"
-            type="com.b00sti.travelbucketlist.ui.buckets.BucketsVM"/>
+            type="com.b00sti.travelbucketlist.ui.public_all_lists.PublicAllListsVM"/>
 
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Match"
         android:background="@color/white">
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnAddBucket"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:gravity="center"
-            android:onClick="@{() -> vm.refresh()}"
-            android:text="Add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvBuckets"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center"
-            android:padding="24dp"
             android:textAllCaps="true"
             android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddBucket"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
+
 </layout>

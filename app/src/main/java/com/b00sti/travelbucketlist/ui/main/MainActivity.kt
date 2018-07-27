@@ -6,9 +6,7 @@ import android.support.design.widget.BottomNavigationView
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseActivity
-import com.b00sti.travelbucketlist.base.SingleActivity
 import com.b00sti.travelbucketlist.databinding.ActivityMainBinding
-import com.b00sti.travelbucketlist.utils.ScreenRouter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), MainNavigator {
@@ -34,7 +32,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), MainNav
             }
             R.id.navigation_dashboard -> {
                 vpMainNavigation.currentItem = 1
-                ScreenRouter.startWithoutParams(this, SingleActivity::class)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {

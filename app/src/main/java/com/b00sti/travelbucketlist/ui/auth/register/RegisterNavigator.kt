@@ -1,8 +1,8 @@
 package com.b00sti.travelbucketlist.ui.auth.register
 
-import com.b00sti.travelbucketlist.base.BaseNavigator
+import com.b00sti.travelbucketlist.base.BaseNav
 
-interface RegisterNavigator : BaseNavigator {
+interface RegisterNavigator : BaseNav {
 
     fun registerFacebook()
     fun openLoginFragment()
