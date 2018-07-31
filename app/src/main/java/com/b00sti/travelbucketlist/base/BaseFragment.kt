@@ -24,6 +24,8 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseVM<*>> : Fragment()
 
     protected abstract fun getViewModels(): V
     protected abstract fun getBindingVariable(): Int
+    protected abstract fun initUI(): Unit?
+    protected abstract fun fetchInitialData(): Unit?
     @LayoutRes protected abstract fun getLayoutId(): Int
 
     open fun refresh(): Boolean = false
@@ -36,6 +38,8 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseVM<*>> : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareDataBindingVariables()
+        initUI()
+        fetchInitialData()
     }
 
     private fun prepareDataBindingLayout(inflater: LayoutInflater, container: ViewGroup?) {
@@ -54,6 +58,7 @@ abstract class BaseFragment<T : ViewDataBinding, out V : BaseVM<*>> : Fragment()
 
     inline fun <reified T : BaseActivity<*, *>> getParent(): T? = activity as? T
     fun getBase(): BaseActivity<*, *>? = activity as BaseActivity<*, *>
+    inline fun <reified T> getFromBundle(key: String = SingleActivity.BUNDLE_INTENT): T? = arguments!![key] as? T
     override fun showToast(resMsg: Int) = toast(ResUtils.getString(resMsg))
     override fun showToast(message: String) = toast(message)
     override fun onStartLoading() = getParent<BaseActivity<*, *>>()?.onStartLoading()

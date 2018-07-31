@@ -21,4 +21,7 @@ class MyBucketItemDetailsFragment : BaseFragment<FragmentMyBucketItemDetailsBind
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_my_bucket_item_details
 
+    override fun initUI() {}
+    override fun fetchInitialData() {}
+
 }

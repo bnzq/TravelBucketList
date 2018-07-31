@@ -10,11 +10,18 @@ import com.b00sti.travelbucketlist.model.Bucket
  */
 class PublicBucketListVM : BaseVM<PublicBucketListNavigator>() {
 
-    val listOfBuckets = MutableLiveData<MutableList<Bucket.BucketToDo>>()
+    val listOfBuckets = MutableLiveData<MutableList<Bucket.ToDo>>()
+    lateinit var bucketList: Bucket.List
 
-    fun getBucketList(bucketList: Bucket.BucketList) {
-        fetchWithPb(RxFbDatabase.getBucketList(bucketList), onSuccess = {
-            val updateList: MutableList<Bucket.BucketToDo> = mutableListOf()
+    fun onCopyClicked() {
+        fetch(RxFbDatabase.copyBucketList(bucketList), onComplete = {
+            getNavigator().onCopyCompleted()
+        })
+    }
+
+    fun getBucketList() {
+        fetch(RxFbDatabase.getBucketList(bucketList), onSuccess = {
+            val updateList: MutableList<Bucket.ToDo> = mutableListOf()
             updateList.addAll(listOfBuckets.value ?: mutableListOf())
             updateList.addAll(it)
             listOfBuckets.postValue(updateList)

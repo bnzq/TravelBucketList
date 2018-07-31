@@ -20,5 +20,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardVM>(),
     override fun getViewModels(): DashboardVM = ViewModelProviders.of(this).get(DashboardVM::class.java)
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_dashboard
+    override fun initUI() {}
+    override fun fetchInitialData() {}
 
 }

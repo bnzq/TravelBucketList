@@ -27,6 +27,13 @@ object RxFbDatabase {
 
     private const val PUBLIC_ITEMS = "all_to_dos"
     private lateinit var dbAllToDos: DatabaseReference
+
+    private const val USERS = "all_users"
+    private lateinit var dbUsers: DatabaseReference
+
+    private const val USERS_TO_DO = "to_dos"
+    private const val USERS_LISTS = "lists"
+
     //endregion
 
     fun setUpDatabase() {
@@ -36,11 +43,12 @@ object RxFbDatabase {
         dbMain = db.reference.child(MAIN)
         dbAllBucketLists = dbMain.child(ALL_BUCKET_LISTS)
         dbAllToDos = dbMain.child(PUBLIC_ITEMS)
+        dbUsers = dbMain.child(USERS)
         dbMain.keepSynced(true)
     }
 
     //region Database functions
-    fun addNewBucketList(bucketList: Bucket.BucketList): Completable = Completable.create({ emitter ->
+    fun addNewBucketList(bucketList: Bucket.List): Completable = Completable.create({ emitter ->
         val map = WeakHashMap<String, Any>()
         bucketList.id = dbAllBucketLists.push().key
         map[bucketList.id] = bucketList
@@ -50,7 +58,26 @@ object RxFbDatabase {
         })
     })
 
-    fun addNewBucketToDo(bucketToDo: Bucket.BucketToDo): Completable = Completable.create({ emitter ->
+    fun copyBucketList(bucketList: Bucket.List): Completable = Completable.create({ emitter ->
+        val map = WeakHashMap<String, Any>()
+        map[bucketList.id] = bucketList
+        dbUsers.child(RxFbAuth.getUserId()).child(USERS_LISTS).updateChildren(map).addOnCompleteListener({ task ->
+            if (task.isSuccessful) {
+                emitter.onComplete()
+                copyBucketListTodos(bucketList)
+            } else task.exception?.let { emitter.onError(it) }
+        })
+    })
+
+    private fun copyBucketListTodos(bucketList: Bucket.List) {
+        getBucketList(bucketList).subscribeBy { list ->
+            list.forEach {
+                dbUsers.child(RxFbAuth.getUserId()).child(USERS_TO_DO).updateChildren(mapOf(Pair(it.id, it)))
+            }
+        }
+    }
+
+    fun addNewBucketToDo(bucketToDo: Bucket.ToDo): Completable = Completable.create({ emitter ->
         val map = WeakHashMap<String, Any>()
         bucketToDo.id = dbAllToDos.push().key
         map[bucketToDo.id] = bucketToDo
@@ -60,7 +87,7 @@ object RxFbDatabase {
         })
     })
 
-    fun assignToDoToBucketList(bucketToDo: Bucket.BucketToDo, bucketList: Bucket.BucketList): Completable = Completable.create({ emitter ->
+    fun assignToDoToBucketList(bucketToDo: Bucket.ToDo, bucketList: Bucket.List): Completable = Completable.create({ emitter ->
         val map = WeakHashMap<String, Any>()
         map[bucketToDo.id] = bucketToDo.id
         dbAllBucketLists.child(bucketList.id).child("to_dos").updateChildren(map).addOnCompleteListener({ task ->
@@ -69,7 +96,7 @@ object RxFbDatabase {
         })
     })
 
-    fun getBucketList(bucketList: Bucket.BucketList): Observable<ArrayList<Bucket.BucketToDo>> = Observable.create { emitter ->
+    fun getBucketList(bucketList: Bucket.List): Observable<ArrayList<Bucket.ToDo>> = Observable.create { emitter ->
         dbAllBucketLists.child(bucketList.id).child("to_dos").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError?) = handleDatabaseErrors(error, emitter)
             override fun onDataChange(data: DataSnapshot?) {
@@ -81,17 +108,29 @@ object RxFbDatabase {
         })
     }
 
-    fun getAllPublicBucketLists(): Observable<ArrayList<Bucket.BucketList>> = Observable.create { emitter ->
-        dbAllBucketLists.addListenerForSingleValueEvent(object : ValueEventListener {
+    fun getMyBucketList(bucketList: Bucket.List): Observable<ArrayList<Bucket.ToDo>> = Observable.create { emitter ->
+        dbUsers.child(RxFbAuth.getUserId()).child(USERS_LISTS).child(bucketList.id).child("to_dos").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError?) = handleDatabaseErrors(error, emitter)
+            override fun onDataChange(data: DataSnapshot?) {
+                when {
+                    isEmpty(data) -> emitter.onNext(arrayListOf())
+                    else          -> getPaginedItems(data, emitter, ::getMyBucketItem)
+                }
+            }
+        })
+    }
+
+    fun getAllMyBucketLists(): Observable<ArrayList<Bucket.List>> = Observable.create { emitter ->
+        dbUsers.child(RxFbAuth.getUserId()).child(USERS_LISTS).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError?) = handleDatabaseErrors(error, emitter)
             override fun onDataChange(data: DataSnapshot?) {
                 when {
                     isEmpty(data) -> emitter.onNext(arrayListOf())
                     else          -> {
-                        val items = arrayListOf<Bucket.BucketList>()
+                        val items = arrayListOf<Bucket.List>()
                         for (entry in data!!.children) {
                             try {
-                                entry.getValue(Bucket.BucketList::class.java)?.let {
+                                entry.getValue(Bucket.List::class.java)?.let {
                                     items.add(it)
                                 }
                             } catch (e: DatabaseException) {
@@ -105,7 +144,31 @@ object RxFbDatabase {
         })
     }
 
-    private fun getBucketItem(key: String): Single<Bucket.BucketToDo> = Single.create { emitter ->
+    fun getAllPublicBucketLists(): Observable<ArrayList<Bucket.List>> = Observable.create { emitter ->
+        dbAllBucketLists.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError?) = handleDatabaseErrors(error, emitter)
+            override fun onDataChange(data: DataSnapshot?) {
+                when {
+                    isEmpty(data) -> emitter.onNext(arrayListOf())
+                    else          -> {
+                        val items = arrayListOf<Bucket.List>()
+                        for (entry in data!!.children) {
+                            try {
+                                entry.getValue(Bucket.List::class.java)?.let {
+                                    items.add(it)
+                                }
+                            } catch (e: DatabaseException) {
+                                e.printStackTrace()
+                            }
+                        }
+                        emitter.onNext(items)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun getBucketItem(key: String): Single<Bucket.ToDo> = Single.create { emitter ->
         dbAllToDos
                 .child(key)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -115,19 +178,11 @@ object RxFbDatabase {
                     }
 
                     override fun onDataChange(data: DataSnapshot?) {
-                        val toDo: Bucket.BucketToDo = Bucket.BucketToDo("", "", 1, "")
+                        val toDo: Bucket.ToDo = Bucket.ToDo("", "", 1, "")
                         when {
                             data == null -> emitter.onSuccess(toDo)
                             else         -> {
-                                /*for (entry in data.children) {
-                                    try {
-                                        // entry.key
-                                        // entry.getValue(BucketToDo::class.java)?.let { items.add(it) }
-                                    } catch (e: DatabaseException) {
-                                        e.printStackTrace()
-                                    }
-                                }*/
-                                data.getValue(Bucket.BucketToDo::class.java)?.let {
+                                data.getValue(Bucket.ToDo::class.java)?.let {
                                     emitter.onSuccess(it)
                                 }
                             }
@@ -135,6 +190,32 @@ object RxFbDatabase {
                     }
                 })
     }
+
+    private fun getMyBucketItem(key: String): Single<Bucket.ToDo> = Single.create { emitter ->
+        dbUsers
+                .child(RxFbAuth.getUserId())
+                .child(USERS_TO_DO)
+                .child(key)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError?) {
+                        if (error != null) emitter.onError(error.toException())
+                        else emitter.onError(NullPointerException("Canceled with null value!"))
+                    }
+
+                    override fun onDataChange(data: DataSnapshot?) {
+                        val toDo: Bucket.ToDo = Bucket.ToDo("", "", 1, "")
+                        when {
+                            data == null -> emitter.onSuccess(toDo)
+                            else         -> {
+                                data.getValue(Bucket.ToDo::class.java)?.let {
+                                    emitter.onSuccess(it)
+                                }
+                            }
+                        }
+                    }
+                })
+    }
+
     //endregion
 
     //region Utils

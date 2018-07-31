@@ -20,5 +20,7 @@ class BucketCopyFragment : BaseFragment<FragmentBucketCopyBinding, BucketCopyVM>
     override fun getViewModels(): BucketCopyVM = ViewModelProviders.of(this).get(BucketCopyVM::class.java)
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_bucket_copy
+    override fun initUI() {}
+    override fun fetchInitialData() {}
 
 }

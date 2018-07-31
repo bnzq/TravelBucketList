@@ -52,7 +52,7 @@ object ScreenRouter {
         }
     }
 
-    private fun startWithParams(activity: Activity?, clazz: KClass<*>, bundle: Bundle = Bundle()) {
+    fun startWithParams(activity: Activity?, clazz: KClass<*>, bundle: Bundle = Bundle()) {
         checkConditions(activity) {
             runSimpleActivity(activity, clazz, bundle)
         }

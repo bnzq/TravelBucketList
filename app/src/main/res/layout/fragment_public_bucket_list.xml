@@ -86,6 +86,7 @@
             android:layout_height="56dp"
             android:layout_marginEnd="32dp"
             android:src="@drawable/ic_copy_white_24dp"
+            android:onClick="@{()->vm.onCopyClicked()}"
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="bottom|right|end"/>
     </android.support.design.widget.CoordinatorLayout>

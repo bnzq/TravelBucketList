@@ -20,5 +20,6 @@ class AddBucketListFragment : BaseFragment<FragmentAddBucketListBinding, AddBuck
     override fun getViewModels(): AddBucketListVM = ViewModelProviders.of(this).get(AddBucketListVM::class.java)
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_add_bucket_list
-
+    override fun initUI() {}
+    override fun fetchInitialData() {}
 }

@@ -15,25 +15,25 @@ import com.b00sti.travelbucketlist.model.Bucket
 /**
  * Created by b00sti on 27.07.2018
  */
-private val ITEM_CALLBACK = object : DiffUtil.ItemCallback<Bucket.BucketList>() {
-    override fun areItemsTheSame(oldItem: Bucket.BucketList, newItem: Bucket.BucketList): Boolean = oldItem.id == newItem.id
-    override fun areContentsTheSame(oldItem: Bucket.BucketList, newItem: Bucket.BucketList): Boolean = oldItem == newItem
+private val ITEM_CALLBACK = object : DiffUtil.ItemCallback<Bucket.List>() {
+    override fun areItemsTheSame(oldItem: Bucket.List, newItem: Bucket.List): Boolean = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: Bucket.List, newItem: Bucket.List): Boolean = oldItem == newItem
 }
 
-interface BucketsListsNavigator : AdapterNavigator<Bucket.BucketList> {
+interface BucketsListsNavigator : AdapterNavigator<Bucket.List> {
 
 }
 
-class BucketsListsAdapterVM(val item: Bucket.BucketList) : BaseVM<BucketsListsNavigator>() {
+class BucketsListsAdapterVM(val item: Bucket.List) : BaseVM<BucketsListsNavigator>() {
     fun onItemClicked() = getNavigator().onItemClicked(item)
 }
 
-class BucketsListsAdapter(val callback: BucketsListsNavigator) : BaseAdapter<Bucket.BucketList, BucketsListsAdapter.VH>(ITEM_CALLBACK) {
+class BucketsListsAdapter(val callback: BucketsListsNavigator) : BaseAdapter<Bucket.List, BucketsListsAdapter.VH>(ITEM_CALLBACK) {
     override fun getViewHolder(parent: ViewGroup): VH = VH(ItemBucketsListsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     inner class VH(binding: ItemBucketsListsBinding) : BaseVH<ItemBucketsListsBinding, BucketsListsAdapterVM>(binding), BucketsListsNavigator {
 
-        override fun onItemClicked(item: Bucket.BucketList) = callback.onItemClicked(item)
+        override fun onItemClicked(item: Bucket.List) = callback.onItemClicked(item)
 
         override fun getViewModel(position: Int): BucketsListsAdapterVM {
             val viewModel = BucketsListsAdapterVM(getItem(adapterPosition))

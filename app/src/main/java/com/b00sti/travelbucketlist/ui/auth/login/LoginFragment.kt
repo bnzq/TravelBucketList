@@ -25,11 +25,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
     override fun getViewModels(): LoginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_login
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.setNavigator(this)
-    }
+    override fun initUI() = viewModel.setNavigator(this)
+    override fun fetchInitialData() {}
 
     override fun loginFacebook() = getParent<AuthActivity>()?.onFacebookClick() ?: Unit
 

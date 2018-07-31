@@ -21,12 +21,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     override fun getViewModels(): RegisterViewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_register
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.setNavigator(this)
-    }
-
+    override fun initUI() = viewModel.setNavigator(this)
+    override fun fetchInitialData() {}
     override fun registerFacebook() = getParent<AuthActivity>()?.onFacebookClick() ?: Unit
     override fun openLoginFragment() {
         var fragment = getBase()?.supportFragmentManager?.findFragmentByTag(LoginFragment::class.java.name)

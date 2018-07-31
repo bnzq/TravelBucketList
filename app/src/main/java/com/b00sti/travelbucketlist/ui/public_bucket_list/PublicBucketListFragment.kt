@@ -4,14 +4,15 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.b00sti.travelbucketlist.BR
 import com.b00sti.travelbucketlist.R
 import com.b00sti.travelbucketlist.base.BaseFragment
+import com.b00sti.travelbucketlist.base.SingleActivity
 import com.b00sti.travelbucketlist.databinding.FragmentPublicBucketListBinding
 import com.b00sti.travelbucketlist.model.Bucket
+import com.b00sti.travelbucketlist.utils.finish
 import com.b00sti.travelbucketlist.utils.toast
-import kotlinx.android.synthetic.main.fragment_public_bucket_list.*
+import kotlinx.android.synthetic.main.fragment_my_all_lists.*
 
 /**
  * Created by b00sti on 27.07.2018
@@ -19,32 +20,40 @@ import kotlinx.android.synthetic.main.fragment_public_bucket_list.*
 class PublicBucketListFragment : BaseFragment<FragmentPublicBucketListBinding, PublicBucketListVM>(), PublicBucketListNavigator {
 
     companion object {
-        fun getInstance(): PublicBucketListFragment {
-            return PublicBucketListFragment()
+        fun getInstance(bundle: Bundle): PublicBucketListFragment {
+            return PublicBucketListFragment().apply { arguments = bundle }
+        }
+
+        fun prepareBundle(item: Bucket.List): Bundle {
+            return Bundle().apply {
+                putInt(SingleActivity.KIND_OF_FRAGMENT_INTENT, SingleActivity.PUBLIC_BUCKET_LIST_FRAGMENT)
+                putParcelable(SingleActivity.BUNDLE_INTENT, item)
+            }
         }
     }
+
+    private val adapter = BucketToDosAdapter(object : BucketToDosNavigator {
+        override fun onItemClicked(item: Bucket.ToDo) {
+            toast("Item ${item.name} clicked")
+        }
+    })
 
     override fun getViewModels(): PublicBucketListVM = ViewModelProviders.of(this).get(PublicBucketListVM::class.java)
     override fun getBindingVariable(): Int = BR.vm
     override fun getLayoutId(): Int = R.layout.fragment_public_bucket_list
 
-    private val adapter = BucketToDosAdapter(object : BucketToDosNavigator {
-        override fun onItemClicked(item: Bucket.BucketToDo) {
-            toast("Item ${item.name} clicked")
-        }
-    })
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initUI() {
         viewModel.setNavigator(this)
-        initUI()
-        viewModel.getBucketList(Bucket.BucketList("", true, "", "-LILHhlNfSTaO_sAPIyf"))
+        viewModel.listOfBuckets.observe(this, Observer { adapter.submitList(it) })
+        rvBuckets.layoutManager = LinearLayoutManager(getParent())
+        rvBuckets.adapter = adapter
     }
 
-    private fun initUI() {
-        viewModel.listOfBuckets.observe(this, Observer { adapter.submitList(it) })
-        rvToDos.layoutManager = LinearLayoutManager(getParent())
-        rvToDos.adapter = adapter
+    override fun fetchInitialData() = getFromBundle<Bucket.List>()?.let {
+        viewModel.bucketList = it
+        viewModel.getBucketList()
     }
+
+    override fun onCopyCompleted() = finish()
 
 }

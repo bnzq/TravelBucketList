@@ -43,9 +43,32 @@ abstract class BaseVM<N : EmptyNavigator> : ViewModel() {
         return mCompositeDisposable
     }
 
+    fun fetch(completable: Completable, onComplete: () -> Unit, onError: (Throwable) -> Unit = { getBaseNavigator().onError(it) }) {
+        initDisposables()
+        mCompositeDisposable.add(completable
+                .compose(RxUtils.applyCompletableSchedulers())
+                .subscribeBy(
+                        onComplete = { onComplete.invoke() },
+                        onError = { onError.invoke(it) }
+                ))
+    }
+
+    fun fetchWithPb(completable: Completable, onComplete: () -> Unit, onError: (Throwable) -> Unit = { getBaseNavigator().onError(it) }) {
+        initDisposables()
+        mCompositeDisposable.add(completable
+                .doOnSubscribe({ getBaseNavigator().onStartLoading() })
+                .doOnTerminate({ getBaseNavigator().onFinishLoading() })
+                .compose(RxUtils.applyCompletableSchedulers())
+                .subscribeBy(
+                        onComplete = { onComplete.invoke() },
+                        onError = { onError.invoke(it) }
+                ))
+    }
+
     fun <T : Any> fetch(observable: Observable<T>, onSuccess: (T) -> Unit = {}, onError: (Throwable) -> Unit = { getBaseNavigator().onError(it) }, onComplete: () -> Unit = {}) {
         initDisposables()
         mCompositeDisposable.add(observable
+                .compose(RxUtils.applyObservableSchedulers())
                 .subscribeBy(
                         onNext = { onSuccess.invoke(it) },
                         onError = { onError.invoke(it) },
@@ -58,6 +81,7 @@ abstract class BaseVM<N : EmptyNavigator> : ViewModel() {
         mCompositeDisposable.add(observable
                 .doOnSubscribe({ getBaseNavigator().onStartLoading() })
                 .doOnTerminate({ getBaseNavigator().onFinishLoading() })
+                .compose(RxUtils.applyObservableSchedulers())
                 .subscribeBy(
                         onNext = { onSuccess.invoke(it) },
                         onError = { onError.invoke(it) },
